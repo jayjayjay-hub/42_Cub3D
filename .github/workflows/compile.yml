@@ -1,0 +1,32 @@
+name: Compile Test
+
+on:
+  pull_request:
+    branches:
+      - master
+
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        submodules: recursive
+
+    - name: Set up C compiler Linux
+      if: matrix.os == 'ubuntu-latest'
+      run: sudo apt-get install -y gcc
+
+    - name: Set up C compiler on macOS
+      if: matrix.os == 'macos-latest'
+      run: brew install gcc
+
+    - name: Build and Test
+      run: |
+        make
