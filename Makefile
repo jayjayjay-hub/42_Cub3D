@@ -3,46 +3,66 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+         #
+#    By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/19 11:59:48 by kosnakam          #+#    #+#              #
-#    Updated: 2024/09/28 16:03:10 by kosnakam         ###   ########.fr        #
+#    Updated: 2024/09/28 18:57:53 by jtakahas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# project name
+# Makefile
+MAKEFILE 		= Makefile
+
+# プロジェクト名
 NAME			= cub3D
 
-# compiler
-CC				= cc
+# ソースファイルとオブジェクトファイルのディレクトリ
+SRC_DIR			= src/
+OBJ_DIR			= .obj/
 
-# commands
+# ライブラリ
+LIBFT_DIR		= libft/
+LIBFT_NAME		= libft.a
+MLX_DIR			= mlx/
+MXL_NAME		= libmlx.a
+# MacOSの場合
+ifeq ($(shell uname), Darwin)
+	MLX_NAME	= libmlx.a
+# Linuxの場合
+else
+	MLX_NAME	= libmlx_Linux.a
+endif
+
+# インクルード
+INCLUDE_DIR		= include/
+INCLUDE			= -I$(INCLUDE_DIR)
+LIBFT_INCLUDE	= -I$(LIBFT_DIR)$(INCLUDE_DIR)
+MLX_INCLUDE		= -I$(MLX_DIR)$(INCLUDE_DIR)
+HEADERS			= $(shell find $(INCLUDE_DIR) $(LIBFT_DIR)$(INCLUDE_DIR) $(MLX_DIR)$(INCLUDE_DIR) -name "*.h")
+
+# 依存ファイル
+DEPS			= $(HEADERS) $(MAKEFILE) $(LIBFT_DIR)$(LIBFT_NAME) $(MLX_DIR)$(MLX_NAME)
+
+# コンパイル設定
+CC				= cc
+CFLAGS			= -Wall -Wextra -Werror
+# MacOSの場合
+ifeq ($(shell uname), Darwin)
+	LFLAGS		= -framework OpenGL -framework AppKit
+# Linuxの場合
+else
+	LFLAGS		= -lXext -lX11
+endif
+
+# コマンド
 RM				= rm -rf
 NORM			= norminette
 
-# library
-LIBFT_NAME		= libft.a
-LIBFT_DIR		= libft/
-
-# mlx
-MLX_NAME		= libmlx.a
-MLX_DIR			= minilibx/
-
-# flags
-CFLAGS			= -Wall -Wextra -Werror
-LFLAGS			= -L$(MLX_DIR) -lXext -lX11
-
-# include
-INCLUDE_DIR		= include/
-INCLUDE			= -I$(INCLUDE_DIR)
-LIBFT_INCLUDE 	= -I$(LIBFT_DIR)$(INCLUDE_DIR) -I$(MLX_DIR)
-
-# srcs and objs
-SRC_DIR			= src/
-OBJ_DIR			= .obj/
+# ソースファイルをまとめる
 SRC_FILES		= $(shell find $(SRC_DIR) -name "*.c" | sed "s/.*\///")
-OBJ_FILES		= $(SRC_FILES:%.c=%.o)
-OBJS			= $(addprefix $(OBJ_DIR), $(OBJ_FILES))
+
+# オブジェクトファイルをまとめる
+OBJS			= $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 
 # color ***********************
 Y				= "\033[33m"
@@ -60,13 +80,11 @@ $(NAME): $(OBJ_DIR) $(OBJS)
 	@echo $(Y) "$(NAME) src files successfully compiled\n" $(X)
 	@echo $(B) "--> Into $(LIBFT_DIR)" $(X)
 	@$(MAKE) -C $(LIBFT_DIR)
-	@echo $(B) "<-- Out of $(LIBFT_DIR)\n" $(X)
-	@echo $(B) "--> Into $(LIBFT_DIR)" $(X)
-	@$(MAKE) -C $(MLX_DIR)
+	@printf $(UP)$(CUT)
 	@echo $(B) "<-- Out of $(LIBFT_DIR)\n" $(X)
 	@echo $(B) "$(NAME) creating" $(X)
 	@printf $(UP)$(CUT)
-	@$(CC) $(CFLAGS) $(OBJS) $(LFLAGS) $(MLX_DIR)$(MLX_NAME) $(LIBFT_DIR)$(LIBFT_NAME) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_DIR)$(LIBFT_NAME) $(MLX_DIR)$(MLX_NAME) $(LFLAGS) -o $(NAME)
 	@echo $(G) "!! $(NAME) created !!\n" $(X)
 
 $(OBJ_DIR):
@@ -74,18 +92,18 @@ $(OBJ_DIR):
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@echo $(Y) "Compiling $<" $(X)
-	@$(CC) $(INCLUDE) $(LIBFT_INCLUDE) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCLUDE) $(LIBFT_INCLUDE) $(MLX_INCLUDE) -c $< -o $@
 	@printf $(UP)$(CUT)
 
 clean:
 	@$(MAKE) -C $(LIBFT_DIR) clean
-	@$(MAKE) -C $(MLX_DIR) clean
+	@printf $(UP)$(CUT)
 	@$(RM) $(OBJ_DIR)
 	@echo $(R) "$(OBJ_DIR) has been removed!!" $(X)
 
 fclean:
 	@$(MAKE) -C $(LIBFT_DIR) fclean
-	@$(MAKE) -C $(MLX_DIR) clean
+	@printf $(UP)$(CUT)
 	@$(RM) $(OBJ_DIR)
 	@$(RM) $(NAME)
 	@echo $(R) "$(NAME) $(OBJ_DIR) has been removed!!" $(X)
