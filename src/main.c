@@ -1,19 +1,37 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/28 19:09:37 by jtakahas          #+#    #+#             */
+/*   Updated: 2024/09/28 19:14:13 by jtakahas         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
-// 画面に点を表示する関数だけのプログラム
-int main(void)
+int	main(void)
 {
-	// 画面の大きさを指定
-	int width = 640;
-	int height = 480;
-	// 画面の大きさを指定
-	void *mlx = mlx_init();
-	void *win = mlx_new_window(mlx, width, height, "mlx 42");
-	// 画面の大きさを指定
-	int x = width / 2;
-	int y = height / 2;
-	// 画面の大きさを指定
-	mlx_pixel_put(mlx, win, x, y, 0x00FF0000);
+	void	*mlx;
+	void	*win;
+	int		x;
+	int		y;
+
+	mlx = mlx_init();
+	win = mlx_new_window(mlx, 800, 600, "Hello world!");
+	y = 0;
+	while (y < 600)
+	{
+		x = 0;
+		while (x < 800)
+		{
+			mlx_pixel_put(mlx, win, x, y, 0x00FF0000);
+			x++;
+		}
+		y++;
+	}
 	mlx_loop(mlx);
 	return (0);
 }
