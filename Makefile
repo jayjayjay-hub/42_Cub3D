@@ -6,7 +6,7 @@
 #    By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/19 11:59:48 by kosnakam          #+#    #+#              #
-#    Updated: 2024/09/28 15:52:27 by kosnakam         ###   ########.fr        #
+#    Updated: 2024/09/28 16:03:10 by kosnakam         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 NAME			= cub3D
 
 # compiler
-CC				= clang
+CC				= cc
 
 # commands
 RM				= rm -rf
@@ -61,6 +61,9 @@ $(NAME): $(OBJ_DIR) $(OBJS)
 	@echo $(B) "--> Into $(LIBFT_DIR)" $(X)
 	@$(MAKE) -C $(LIBFT_DIR)
 	@echo $(B) "<-- Out of $(LIBFT_DIR)\n" $(X)
+	@echo $(B) "--> Into $(LIBFT_DIR)" $(X)
+	@$(MAKE) -C $(MLX_DIR)
+	@echo $(B) "<-- Out of $(LIBFT_DIR)\n" $(X)
 	@echo $(B) "$(NAME) creating" $(X)
 	@printf $(UP)$(CUT)
 	@$(CC) $(CFLAGS) $(OBJS) $(LFLAGS) $(MLX_DIR)$(MLX_NAME) $(LIBFT_DIR)$(LIBFT_NAME) -o $(NAME)
@@ -76,11 +79,13 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 
 clean:
 	@$(MAKE) -C $(LIBFT_DIR) clean
+	@$(MAKE) -C $(MLX_DIR) clean
 	@$(RM) $(OBJ_DIR)
 	@echo $(R) "$(OBJ_DIR) has been removed!!" $(X)
 
 fclean:
 	@$(MAKE) -C $(LIBFT_DIR) fclean
+	@$(MAKE) -C $(MLX_DIR) clean
 	@$(RM) $(OBJ_DIR)
 	@$(RM) $(NAME)
 	@echo $(R) "$(NAME) $(OBJ_DIR) has been removed!!" $(X)
