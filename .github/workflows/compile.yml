@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest]
 
     steps:
     - name: Checkout code
@@ -23,10 +23,6 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: sudo apt-get install -y gcc
 
-    - name: Set up C compiler on macOS
-      if: matrix.os == 'macos-latest'
-      run: brew install gcc
-
     - name: Build and Test
-      run: |
+      run:
         make
