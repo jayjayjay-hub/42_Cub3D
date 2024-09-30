@@ -1,0 +1,13 @@
+{
+    "customizations": {
+      "codespaces": {
+        "repositories": {
+          "jayjayjay-hub/42_Libft": {
+            "permissions": {
+              "contents": "read"
+            }
+          }
+        }
+      }
+    }
+}
