@@ -6,7 +6,7 @@
 /*   By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 19:10:51 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/10/07 16:06:36 by kosnakam         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:59:28 by kosnakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,11 @@
 #  define DESTROYNOTIFY DestroyNotify
 #  define STRUCTURENOTIFYMASK StructureNotifyMask
 # endif
+
+# define WINWIDTH 1200
+# define WINHEIGHT 800
+# define PIXELSIZE 40
+# define CHARSPEED 300
 
 typedef struct s_mlx
 {

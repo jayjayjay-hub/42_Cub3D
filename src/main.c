@@ -6,7 +6,7 @@
 /*   By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 19:09:37 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/10/07 16:42:29 by kosnakam         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:12:55 by kosnakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,25 @@ int key_press(int key_code, t_mlx *mlx)
 int put_color(t_mlx *mlx)
 {
 	if (mlx->up == 1)
-		mlx_pixel_put(mlx->mlx, mlx->win, mlx->x / 200, mlx->y-- / 200, 0x00FF0000);
+	{
+		mlx_pixel_put(mlx->mlx, mlx->win, mlx->x / CHARSPEED, mlx->y-- / CHARSPEED, 0x00FF0000);
+		// mlx_pixel_put(mlx->mlx, mlx->win, mlx->x / CHARSPEED, mlx->y / CHARSPEED, 0x00000000);
+	}
 	if (mlx->down == 1)
-		mlx_pixel_put(mlx->mlx, mlx->win, mlx->x / 200, mlx->y++ / 200, 0x00FF0000);
+	{
+		mlx_pixel_put(mlx->mlx, mlx->win, mlx->x / CHARSPEED, mlx->y++ / CHARSPEED, 0x00FF0000);
+		// mlx_pixel_put(mlx->mlx, mlx->win, mlx->x / CHARSPEED, mlx->y / CHARSPEED, 0x00000000);
+	}
 	if (mlx->right == 1)
-		mlx_pixel_put(mlx->mlx, mlx->win, mlx->x++ / 200, mlx->y / 200, 0x00FF0000);
+	{
+		mlx_pixel_put(mlx->mlx, mlx->win, mlx->x++ / CHARSPEED, mlx->y / CHARSPEED, 0x00FF0000);
+		// mlx_pixel_put(mlx->mlx, mlx->win, mlx->x / CHARSPEED, mlx->y / CHARSPEED, 0x00000000);
+	}
 	if (mlx->left == 1)
-		mlx_pixel_put(mlx->mlx, mlx->win, mlx->x-- / 200, mlx->y / 200, 0x00FF0000);
+	{
+		mlx_pixel_put(mlx->mlx, mlx->win, mlx->x-- / CHARSPEED, mlx->y / CHARSPEED, 0x00FF0000);
+		// mlx_pixel_put(mlx->mlx, mlx->win, mlx->x / CHARSPEED, mlx->y / CHARSPEED, 0x00000000);
+	}
 	return (0);
 }
 
@@ -103,13 +115,13 @@ void	put_wall(t_mlx mlx)
 
 	img.relative_path = "./img/0.xpm";
 	img.mlx = mlx;
-	while (y < 1200 / 40)
+	while (y < WINHEIGHT / PIXELSIZE)
 	{
 		x = 0;
-		while (x < 800 / 40)
+		while (x < WINWIDTH / PIXELSIZE)
 		{
 			if (mlx.map[x] && mlx.map[x][y] == '1')
-				put_img(img, x * 40, y * 40);
+				put_img(img, x * PIXELSIZE, y * PIXELSIZE);
 			x++;
 		}
 		y++;
@@ -119,7 +131,7 @@ void	put_wall(t_mlx mlx)
 void	cub(t_mlx mlx)
 {
 	mlx.mlx = mlx_init();
-	mlx.win = mlx_new_window(mlx.mlx, 1200, 800, "cub3D");
+	mlx.win = mlx_new_window(mlx.mlx, WINWIDTH, WINHEIGHT, "cub3D");
 	put_wall(mlx);
 	mlx_loop_hook(mlx.mlx, put_color, &mlx);
 	mlx_hook(mlx.win, 2, 1L << 0, key_press, &mlx);
@@ -128,7 +140,7 @@ void	cub(t_mlx mlx)
 	mlx_loop(mlx.mlx);
 }
 
-void	create_map(t_mlx *mlx, char *argv)
+void	map_scan(t_mlx *mlx, char *argv)
 {
 	int		y;
 	int		fd;
@@ -136,7 +148,7 @@ void	create_map(t_mlx *mlx, char *argv)
 	y = 0;
 	fd = open(argv, O_RDONLY);
 	mlx->map = (char **)malloc(sizeof(char *) * OPEN_MAX);
-	while (y < 1200 / 40)
+	while (y < WINWIDTH / PIXELSIZE)
 	{
 		mlx->map[y] = get_next_line(fd);
 		y++;
@@ -147,11 +159,11 @@ int	main(int argc, char **argv)
 {
 	t_mlx	mlx;
 
-	mlx.x = 0;
-	mlx.y = 0;
+	mlx.x = 60 * CHARSPEED;
+	mlx.y = 60 * CHARSPEED;
 	if (argc != 2 || check_map(argv))
 		exit(0);
-	create_map(&mlx, argv[1]);
+	map_scan(&mlx, argv[1]);
 	cub(mlx);
 	return (0);
 }
