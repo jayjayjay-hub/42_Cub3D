@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 19:10:51 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/28 19:10:52 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:06:36 by kosnakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,28 @@
 #  define DESTROYNOTIFY DestroyNotify
 #  define STRUCTURENOTIFYMASK StructureNotifyMask
 # endif
+
+typedef struct s_mlx
+{
+	void	*mlx;
+	void	*win;
+	int		up;
+	int		down;
+	int		left;
+	int		right;
+	int		x;
+	int		y;
+	char	**map;
+	struct s_img	*img;
+}	t_mlx;
+
+typedef struct s_img
+{
+	struct s_mlx	mlx;
+	void	*img;
+	char	*relative_path;
+	int		img_width;
+	int		img_height;
+}	t_img;
 
 #endif
