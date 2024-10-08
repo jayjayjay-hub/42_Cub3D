@@ -6,7 +6,7 @@
 /*   By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 19:10:51 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/10/08 14:24:50 by kosnakam         ###   ########.fr       */
+/*   Updated: 2024/10/08 16:50:03 by kosnakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@
 # define WINWIDTH 1200
 # define WINHEIGHT 800
 # define PIXELSIZE 40
-# define CHARSPEED 300
+# define CHARSPEED 50
 
 typedef struct s_mlx
 {

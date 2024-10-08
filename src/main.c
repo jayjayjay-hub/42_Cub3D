@@ -6,7 +6,7 @@
 /*   By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 19:09:37 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/10/08 16:25:03 by kosnakam         ###   ########.fr       */
+/*   Updated: 2024/10/08 17:03:10 by kosnakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	put_pixel(t_img img, int x, int y, char pixel)
 	mlx_put_image_to_window(img.mlx.mlx, img.mlx.win, img.img, x, y);
 }
 
-void	map_refresh(t_mlx mlx)
+void	create_map(t_mlx mlx)
 {
 	int	y = 0;
 	int	x = 0;
@@ -114,6 +114,31 @@ void	map_refresh(t_mlx mlx)
 	}
 }
 
+void	map_refresh(t_mlx mlx, int ox, int oy)
+{
+	int	upy;
+	int	upx;
+	t_img	img;
+
+	img.mlx = mlx;
+	upy = oy / PIXELSIZE / CHARSPEED;
+	upx = ox / PIXELSIZE / CHARSPEED;
+	if (mlx.map[upy] && mlx.map[upy][upx] == '1')
+		put_pixel(img, upx * PIXELSIZE, upy * PIXELSIZE, '1');
+	else if (mlx.map[upy] && mlx.map[upy][upx] == '0')
+		put_pixel(img, upx * PIXELSIZE, upy * PIXELSIZE, '0');
+	upy++;
+	upx++;
+	if (mlx.map[upy] && mlx.map[upy][upx] == '1')
+		put_pixel(img, upx * PIXELSIZE, upy * PIXELSIZE, '1');
+	else if (mlx.map[upy] && mlx.map[upy][upx] == '0')
+		put_pixel(img, upx * PIXELSIZE, upy * PIXELSIZE, '0');
+	// if (mlx.map[upy] && mlx.map[upy][upx] == '1')
+	// 	put_pixel(img, upx * PIXELSIZE, upy * PIXELSIZE, '1');
+	// else if (mlx.map[upy] && mlx.map[upy][upx] == '0')
+	// 	put_pixel(img, upx * PIXELSIZE, upy * PIXELSIZE, '0');
+}
+
 int put_color(t_mlx *mlx)
 {
 	t_img	img;
@@ -121,23 +146,23 @@ int put_color(t_mlx *mlx)
 	img.mlx = *mlx;
 	if (mlx->up == 1)
 	{
-		map_refresh(*mlx);
-		put_pixel(img, mlx->x, mlx->y--, 'p');
+		map_refresh(*mlx, mlx->x, mlx->y);
+		put_pixel(img, mlx->x / CHARSPEED, mlx->y-- / CHARSPEED, 'p');
 	}
 	if (mlx->down == 1)
 	{
-		map_refresh(*mlx);
-		put_pixel(img, mlx->x, mlx->y++, 'p');
+		map_refresh(*mlx, mlx->x, mlx->y);
+		put_pixel(img, mlx->x / CHARSPEED, mlx->y++ / CHARSPEED, 'p');
 	}
 	if (mlx->left == 1)
 	{
-		map_refresh(*mlx);
-		put_pixel(img, mlx->x--, mlx->y, 'p');
+		map_refresh(*mlx, mlx->x, mlx->y);
+		put_pixel(img, mlx->x-- / CHARSPEED, mlx->y / CHARSPEED, 'p');
 	}
 	if (mlx->right == 1)
 	{
-		map_refresh(*mlx);
-		put_pixel(img, mlx->x++, mlx->y, 'p');
+		map_refresh(*mlx, mlx->x, mlx->y);
+		put_pixel(img, mlx->x++ / CHARSPEED, mlx->y / CHARSPEED, 'p');
 	}
 	return (0);
 }
@@ -146,7 +171,7 @@ void	cub(t_mlx mlx)
 {
 	mlx.mlx = mlx_init();
 	mlx.win = mlx_new_window(mlx.mlx, WINWIDTH, WINHEIGHT, "cub3D");
-	map_refresh(mlx);
+	create_map(mlx);
 	mlx_hook(mlx.win, 17, 1L << 2, close_window, &mlx);
 	mlx_hook(mlx.win, 2, 1L << 0, key_press, &mlx);
 	mlx_loop_hook(mlx.mlx, put_color, &mlx);
@@ -173,8 +198,8 @@ int	main(int argc, char **argv)
 {
 	t_mlx	mlx;
 
-	mlx.x = 60;
-	mlx.y = 60;
+	mlx.x = 60 * CHARSPEED;
+	mlx.y = 60 * CHARSPEED;
 	if (argc != 2 || check_map(argv))
 		exit(0);
 	map_scan(&mlx, argv[1]);
