@@ -6,7 +6,7 @@
 /*   By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 19:10:51 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/10/07 16:59:28 by kosnakam         ###   ########.fr       */
+/*   Updated: 2024/10/08 14:24:50 by kosnakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,7 @@ typedef struct s_img
 	int		img_width;
 	int		img_height;
 }	t_img;
+
+void	put_wall(t_mlx mlx);
 
 #endif

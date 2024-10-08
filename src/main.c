@@ -6,7 +6,7 @@
 /*   By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 19:09:37 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/10/07 17:12:55 by kosnakam         ###   ########.fr       */
+/*   Updated: 2024/10/08 16:25:03 by kosnakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,31 +27,6 @@ int key_press(int key_code, t_mlx *mlx)
 	return (0);
 }
 
-int put_color(t_mlx *mlx)
-{
-	if (mlx->up == 1)
-	{
-		mlx_pixel_put(mlx->mlx, mlx->win, mlx->x / CHARSPEED, mlx->y-- / CHARSPEED, 0x00FF0000);
-		// mlx_pixel_put(mlx->mlx, mlx->win, mlx->x / CHARSPEED, mlx->y / CHARSPEED, 0x00000000);
-	}
-	if (mlx->down == 1)
-	{
-		mlx_pixel_put(mlx->mlx, mlx->win, mlx->x / CHARSPEED, mlx->y++ / CHARSPEED, 0x00FF0000);
-		// mlx_pixel_put(mlx->mlx, mlx->win, mlx->x / CHARSPEED, mlx->y / CHARSPEED, 0x00000000);
-	}
-	if (mlx->right == 1)
-	{
-		mlx_pixel_put(mlx->mlx, mlx->win, mlx->x++ / CHARSPEED, mlx->y / CHARSPEED, 0x00FF0000);
-		// mlx_pixel_put(mlx->mlx, mlx->win, mlx->x / CHARSPEED, mlx->y / CHARSPEED, 0x00000000);
-	}
-	if (mlx->left == 1)
-	{
-		mlx_pixel_put(mlx->mlx, mlx->win, mlx->x-- / CHARSPEED, mlx->y / CHARSPEED, 0x00FF0000);
-		// mlx_pixel_put(mlx->mlx, mlx->win, mlx->x / CHARSPEED, mlx->y / CHARSPEED, 0x00000000);
-	}
-	return (0);
-}
-
 int key_release(int key_code, t_mlx *mlx)
 {
 	if (key_code == UP)
@@ -65,7 +40,7 @@ int key_release(int key_code, t_mlx *mlx)
 	return (0);
 }
 
-int	ft_close_window(t_mlx *mlx)
+int	close_window(t_mlx *mlx)
 {
 	mlx_destroy_window(mlx->mlx, mlx->win);
 	exit(0);
@@ -98,45 +73,84 @@ int check_map(char **argv)
 	return (0);
 }
 
-void	put_img(t_img img, int x, int y)
+void	put_pixel(t_img img, int x, int y, char pixel)
 {
-	img.img_width = 20;
-	img.img_height = 20;
+	img.img_width = 0;
+	img.img_height = 0;
+	if (pixel == '0')
+		img.relative_path = "./img/0.xpm";
+	else if (pixel == '1')
+		img.relative_path = "./img/1.xpm";
+	else if (pixel == 'p')
+		img.relative_path = "./img/p.xpm";
 	img.img = mlx_xpm_file_to_image(img.mlx.mlx,
 			img.relative_path, &img.img_width, &img.img_height);
-	mlx_put_image_to_window(img.mlx.mlx, img.mlx.win, img.img, y, x);
+	mlx_put_image_to_window(img.mlx.mlx, img.mlx.win, img.img, x, y);
 }
 
-void	put_wall(t_mlx mlx)
+void	map_refresh(t_mlx mlx)
 {
-	int	x = 0;
 	int	y = 0;
+	int	x = 0;
 	t_img	img;
 
-	img.relative_path = "./img/0.xpm";
 	img.mlx = mlx;
-	while (y < WINHEIGHT / PIXELSIZE)
+	while (x < WINHEIGHT / PIXELSIZE)
 	{
-		x = 0;
-		while (x < WINWIDTH / PIXELSIZE)
+		y = 0;
+		while (y < WINWIDTH / PIXELSIZE)
 		{
-			if (mlx.map[x] && mlx.map[x][y] == '1')
-				put_img(img, x * PIXELSIZE, y * PIXELSIZE);
-			x++;
+			if (mlx.map[y] && mlx.map[y][x] == '1')
+			{
+				put_pixel(img, x * PIXELSIZE, y * PIXELSIZE, '1');
+			}
+			if (mlx.map[y] && mlx.map[y][x] == '0')
+			{
+				put_pixel(img, x * PIXELSIZE, y * PIXELSIZE, '0');
+			}
+			y++;
 		}
-		y++;
+		x++;
 	}
+}
+
+int put_color(t_mlx *mlx)
+{
+	t_img	img;
+
+	img.mlx = *mlx;
+	if (mlx->up == 1)
+	{
+		map_refresh(*mlx);
+		put_pixel(img, mlx->x, mlx->y--, 'p');
+	}
+	if (mlx->down == 1)
+	{
+		map_refresh(*mlx);
+		put_pixel(img, mlx->x, mlx->y++, 'p');
+	}
+	if (mlx->left == 1)
+	{
+		map_refresh(*mlx);
+		put_pixel(img, mlx->x--, mlx->y, 'p');
+	}
+	if (mlx->right == 1)
+	{
+		map_refresh(*mlx);
+		put_pixel(img, mlx->x++, mlx->y, 'p');
+	}
+	return (0);
 }
 
 void	cub(t_mlx mlx)
 {
 	mlx.mlx = mlx_init();
 	mlx.win = mlx_new_window(mlx.mlx, WINWIDTH, WINHEIGHT, "cub3D");
-	put_wall(mlx);
-	mlx_loop_hook(mlx.mlx, put_color, &mlx);
+	map_refresh(mlx);
+	mlx_hook(mlx.win, 17, 1L << 2, close_window, &mlx);
 	mlx_hook(mlx.win, 2, 1L << 0, key_press, &mlx);
+	mlx_loop_hook(mlx.mlx, put_color, &mlx);
 	mlx_hook(mlx.win, 3, 1L << 1, key_release, &mlx);
-	mlx_hook(mlx.win, 17, 1L << 2, ft_close_window, &mlx);
 	mlx_loop(mlx.mlx);
 }
 
@@ -159,8 +173,8 @@ int	main(int argc, char **argv)
 {
 	t_mlx	mlx;
 
-	mlx.x = 60 * CHARSPEED;
-	mlx.y = 60 * CHARSPEED;
+	mlx.x = 60;
+	mlx.y = 60;
 	if (argc != 2 || check_map(argv))
 		exit(0);
 	map_scan(&mlx, argv[1]);
