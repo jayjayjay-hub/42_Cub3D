@@ -23,6 +23,7 @@ typedef struct s_player
 }	t_player;
 
 #define M_PI_2 1.57079632679489661923
+#define M_PI 3.14159265358979323846
 
 // プレイヤーを描画する関数 (5 * 5 の正方形 + 視野90度の線)
 void	drow_player(void *mlx, void *win, t_player *player)
@@ -41,10 +42,10 @@ void	drow_player(void *mlx, void *win, t_player *player)
 	}
 	x = 0;
 	// angle から 45度ずつ左右に線を引く
-	while (x < 90)
+	while (x < 45)
 	{
-		mlx_pixel_put(mlx, win, player->x + cos(player->angle + x * M_PI_2 / 180) * 100, player->y + sin(player->angle + x * M_PI / 180) * 100, 0x00FF0000);
-		mlx_pixel_put(mlx, win, player->x + cos(player->angle - x * M_PI_2 / 180) * 100, player->y + sin(player->angle - x * M_PI / 180) * 100, 0x00FF0000);
+		mlx_pixel_put(mlx, win, player->x + cos(player->angle + x * M_PI / 180) * 100, player->y + sin(player->angle + x * M_PI / 180) * 100, 0x00FF0000);
+		mlx_pixel_put(mlx, win, player->x + cos(player->angle - x * M_PI / 180) * 100, player->y + sin(player->angle - x * M_PI / 180) * 100, 0x00FF0000);
 		x++;
 	}
 }
@@ -55,26 +56,26 @@ int	key_hook(int keycode, t_player *player)
 	if (keycode == UP)
 	{
 		printf("UP\n");
-		player->x += cos(player->angle - M_PI_2) * player->speed;
-		player->y += sin(player->angle - M_PI_2) * player->speed;
+		player->x += cos(player->angle) * player->speed;
+		player->y += sin(player->angle) * player->speed;
 	}
 	if (keycode == DOWN)
 	{
 		printf("DOWN\n");
-		player->x += cos(player->angle + M_PI_2) * player->speed;
-		player->y += sin(player->angle + M_PI_2) * player->speed;
+		player->x -= cos(player->angle) * player->speed;
+		player->y -= sin(player->angle) * player->speed;
 	}
 	if (keycode == LEFT)
 	{
 		printf("LEFT\n");
-		player->x -= cos(player->angle) * player->speed;
-		player->y -= sin(player->angle) * player->speed;
+		player->x += cos(player->angle - M_PI_2) * player->speed;
+		player->y += sin(player->angle - M_PI_2) * player->speed;
 	}
 	if (keycode == RIGHT)
 	{
 		printf("RIGHT\n");
-		player->x += cos(player->angle) * player->speed;
-		player->y += sin(player->angle) * player->speed;
+		player->x += cos(player->angle + M_PI_2) * player->speed;
+		player->y += sin(player->angle + M_PI_2) * player->speed;
 	}
 	if (keycode == UP_ARROW)
 		player->angle += 0.1;
@@ -92,7 +93,7 @@ void	init_player(t_player *player, void *mlx, void *win)
 {
 	player->x = 400;
 	player->y = 400;
-	player->angle = 0;
+	player->angle = M_PI_2 * 3;
 	player->speed = 10;
 	player->mlx = mlx;
 	player->win = win;
