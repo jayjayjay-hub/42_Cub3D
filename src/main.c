@@ -40,9 +40,11 @@ void	drow_player(void *mlx, void *win, t_player *player)
 			mlx_pixel_put(mlx, win, player->x + x - 1, player->y + y - 1, 0x00FF0000);
 	}
 	x = 0;
-	while (x < 100)
+	// angle から 45度ずつ左右に線を引く
+	while (x < 90)
 	{
-		mlx_pixel_put(mlx, win, player->x + cos(player->angle) * x, player->y + sin(player->angle) * x, 0x00FF0000);
+		mlx_pixel_put(mlx, win, player->x + cos(player->angle + x * M_PI_2 / 180) * 100, player->y + sin(player->angle + x * M_PI / 180) * 100, 0x00FF0000);
+		mlx_pixel_put(mlx, win, player->x + cos(player->angle - x * M_PI_2 / 180) * 100, player->y + sin(player->angle - x * M_PI / 180) * 100, 0x00FF0000);
 		x++;
 	}
 }
@@ -112,7 +114,7 @@ int	main(void)
 	win = mlx_new_window(mlx, 800, 800, "Hello world!");
 	init_player(&player, mlx, win);
 	drow_player(mlx, win, &player);
-	mlx_key_hook(win, key_hook, &player);
+	mlx_hook(win, 2, 1L << 0, key_hook, &player);
 	mlx_loop(mlx);
 	return (0);
 }
