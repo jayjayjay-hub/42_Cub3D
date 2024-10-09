@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 19:10:51 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/28 19:10:52 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/10/09 15:54:38 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include "mlx.h"
 
 # include <fcntl.h>
+# include <math.h>
+# include <stdio.h>
 
 # ifdef __APPLE__
 // key code for mac

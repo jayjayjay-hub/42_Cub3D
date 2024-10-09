@@ -6,7 +6,7 @@
 #    By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/19 11:59:48 by kosnakam          #+#    #+#              #
-#    Updated: 2024/09/28 18:57:53 by jtakahas         ###   ########.fr        #
+#    Updated: 2024/10/09 15:30:52 by jtakahas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,7 @@ ifeq ($(shell uname), Darwin)
 	LFLAGS		= -framework OpenGL -framework AppKit
 # Linuxの場合
 else
-	LFLAGS		= -lXext -lX11
+	LFLAGS		= -lXext -lX11 -lm
 endif
 
 # コマンド
