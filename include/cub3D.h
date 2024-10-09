@@ -6,7 +6,7 @@
 /*   By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 19:10:51 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/10/09 13:32:13 by kosnakam         ###   ########.fr       */
+/*   Updated: 2024/10/09 15:29:51 by kosnakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@
 
 # define WINWIDTH 1200
 # define WINHEIGHT 800
-# define PIXELSIZE 40
+# define PIXELSIZE 64
 # define CHARSPEED 50
 
 typedef struct s_mlx
@@ -94,9 +94,21 @@ typedef struct s_mlx
 	int		right;
 	int		x;
 	int		y;
-	char	**map;
-	struct s_img	*img;
+	struct s_map	*map_info;
+	// struct s_img	*img;
 }	t_mlx;
+
+typedef struct s_map
+{
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
+	char	*s;
+	int		f;
+	int		c;
+	char	**map;
+}	t_map;
 
 typedef struct s_img
 {
@@ -106,5 +118,9 @@ typedef struct s_img
 	int		img_width;
 	int		img_height;
 }	t_img;
+
+// map.c
+int	check_map_spell(char **argv);
+int	map_scan(t_map *map_info, char *argv);
 
 #endif

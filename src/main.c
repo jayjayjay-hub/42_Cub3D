@@ -6,7 +6,7 @@
 /*   By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 19:09:37 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/10/09 13:51:33 by kosnakam         ###   ########.fr       */
+/*   Updated: 2024/10/09 15:56:15 by kosnakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,33 +46,6 @@ int	close_window(t_mlx *mlx)
 	exit(0);
 }
 
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	size_t			index;
-	unsigned char	c1;
-	unsigned char	c2;
-
-	index = 0;
-	while (s1[index] || s2[index])
-	{
-		c1 = (unsigned char)s1[index];
-		c2 = (unsigned char)s2[index];
-		if (c1 != c2)
-			return (c1 - c2);
-		index++;
-	}
-	return (0);
-}
-
-int check_map(char **argv)
-{
-	if (ft_strrchr(argv[1], '.') == 0
-		|| ft_strcmp(ft_strrchr(argv[1], '.'), ".cub") != 0)
-		return (1);
-	
-	return (0);
-}
-
 void	put_pixel(t_img img, int x, int y, char pixel)
 {
 	img.img_width = 0;
@@ -102,11 +75,11 @@ void	create_map(t_mlx mlx)
 		y = 0;
 		while (y < WINWIDTH / PIXELSIZE)
 		{
-			if (mlx.map[y] && mlx.map[y][x] == '1')
+			if (mlx.map_info->map[y] && mlx.map_info->map[y][x] == '1')
 			{
 				put_pixel(img, x * PIXELSIZE, y * PIXELSIZE, '1');
 			}
-			if (mlx.map[y] && mlx.map[y][x] == '0')
+			if (mlx.map_info->map[y] && mlx.map_info->map[y][x] == '0')
 			{
 				put_pixel(img, x * PIXELSIZE, y * PIXELSIZE, '0');
 			}
@@ -125,9 +98,9 @@ void	map_refresh(t_mlx mlx, int ox, int oy)
 	img.mlx = mlx;
 	upy = oy / PIXELSIZE / CHARSPEED;
 	upx = ox / PIXELSIZE / CHARSPEED;
-	if (mlx.map[upy] && mlx.map[upy][upx] == '1')
+	if (mlx.map_info->map[upy] && mlx.map_info->map[upy][upx] == '1')
 		put_pixel(img, upx * PIXELSIZE, upy * PIXELSIZE, '1');
-	else if (mlx.map[upy] && mlx.map[upy][upx] == '0')
+	else if (mlx.map_info->map[upy] && mlx.map_info->map[upy][upx] == '0')
 		put_pixel(img, upx * PIXELSIZE, upy * PIXELSIZE, '0');
 }
 
@@ -171,31 +144,18 @@ void	cub(t_mlx mlx)
 	mlx_loop(mlx.mlx);
 }
 
-void	map_scan(t_mlx *mlx, char *argv)
-{
-	int		y;
-	int		fd;
-
-	y = 0;
-	fd = open(argv, O_RDONLY);
-	mlx->map = (char **)malloc(sizeof(char *) * OPEN_MAX);
-	while (y < WINWIDTH / PIXELSIZE)
-	{
-		mlx->map[y] = get_next_line(fd);
-		y++;
-	}
-
-}
-
 int	main(int argc, char **argv)
 {
 	t_mlx	mlx;
+	t_map	map_info;
 
 	mlx.x = 60 * CHARSPEED;
 	mlx.y = 60 * CHARSPEED;
-	if (argc != 2 || check_map(argv))
+	mlx.map_info = &map_info;
+	if (argc != 2 || check_map_spell(argv))
 		exit(0);
-	map_scan(&mlx, argv[1]);
+	if (map_scan(mlx.map_info, argv[1]))
+		exit(0);
 	cub(mlx);
 	return (0);
 }
