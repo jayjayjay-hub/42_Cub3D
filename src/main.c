@@ -6,7 +6,7 @@
 /*   By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 19:09:37 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/10/09 15:56:15 by kosnakam         ###   ########.fr       */
+/*   Updated: 2024/10/09 16:58:08 by kosnakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,6 @@ int	main(int argc, char **argv)
 		exit(0);
 	if (map_scan(mlx.map_info, argv[1]))
 		exit(0);
-	cub(mlx);
+	// ft_printf("NO: %s\n", mlx.map_info->no);
 	return (0);
 }
