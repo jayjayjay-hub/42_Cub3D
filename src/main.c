@@ -6,7 +6,7 @@
 /*   By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 19:09:37 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/10/08 17:03:10 by kosnakam         ###   ########.fr       */
+/*   Updated: 2024/10/09 13:51:33 by kosnakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ void	create_map(t_mlx mlx)
 	t_img	img;
 
 	img.mlx = mlx;
+	img.img_width = 40;
+	img.img_height = 40;
 	while (x < WINHEIGHT / PIXELSIZE)
 	{
 		y = 0;
@@ -127,16 +129,6 @@ void	map_refresh(t_mlx mlx, int ox, int oy)
 		put_pixel(img, upx * PIXELSIZE, upy * PIXELSIZE, '1');
 	else if (mlx.map[upy] && mlx.map[upy][upx] == '0')
 		put_pixel(img, upx * PIXELSIZE, upy * PIXELSIZE, '0');
-	upy++;
-	upx++;
-	if (mlx.map[upy] && mlx.map[upy][upx] == '1')
-		put_pixel(img, upx * PIXELSIZE, upy * PIXELSIZE, '1');
-	else if (mlx.map[upy] && mlx.map[upy][upx] == '0')
-		put_pixel(img, upx * PIXELSIZE, upy * PIXELSIZE, '0');
-	// if (mlx.map[upy] && mlx.map[upy][upx] == '1')
-	// 	put_pixel(img, upx * PIXELSIZE, upy * PIXELSIZE, '1');
-	// else if (mlx.map[upy] && mlx.map[upy][upx] == '0')
-	// 	put_pixel(img, upx * PIXELSIZE, upy * PIXELSIZE, '0');
 }
 
 int put_color(t_mlx *mlx)
@@ -192,6 +184,7 @@ void	map_scan(t_mlx *mlx, char *argv)
 		mlx->map[y] = get_next_line(fd);
 		y++;
 	}
+
 }
 
 int	main(int argc, char **argv)
