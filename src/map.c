@@ -1,86 +1,94 @@
 #include "cub3D.h"
 
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	size_t			index;
-	unsigned char	c1;
-	unsigned char	c2;
-
-	index = 0;
-	while (s1[index] || s2[index])
-	{
-		c1 = (unsigned char)s1[index];
-		c2 = (unsigned char)s2[index];
-		if (c1 != c2)
-			return (c1 - c2);
-		index++;
-	}
-	return (0);
-}
-
 int check_map_spell(char **argv)
 {
 	if (ft_strrchr(argv[1], '.') == 0
-		|| ft_strcmp(ft_strrchr(argv[1], '.'), ".cub") != 0)
+		|| ft_strncmp(ft_strrchr(argv[1], '.'), ".cub", 4) != 0)
 		return (1);
 	return (0);
 }
 
-char	*set_path(char *map)
+int	check_path_spell(char *path)
+{
+	if (*path == 32 || (*path >= 9 && *path <= 13))
+		return (1);
+	return (0);
+}
+
+void	set_path(char **target, char *map)
 {
 	while (*map == 32 || (*map >= 9 && *map <= 13))
 		map++;
-	return (map);
+	*target = ft_strdup(map);
 }
 
-void	set_map_info(t_map *map_info, char *map)
+int	set_color(int *target, char *map)
 {
-	// ft_printf("map: %s\n", map);
-	if (ft_strncmp(map, "NO", 2) == 0)
+	int	*rgb;
+	int	i = -1;
+
+	rgb = (int *)malloc(sizeof(int) * 3);
+	while (*map == 32 || (*map >= 9 && *map <= 13))
+		map++;
+	while (++i < 3)
 	{
-		ft_printf("1\n");
-		map_info->no = set_path(map += 2);
-		ft_printf("%s\n", map_info->no);
+		rgb[i] = ft_atoi(map);
+		while (ft_isdigit(*map))
+			map++;
+		if (*map == ',' || *map == '\n')
+			map++;
+		else
+			return (1);
 	}
-	else if (ft_strncmp(map, "SO", 2) == 0)
-	{
-		ft_printf("2\n");
-		map_info->so = set_path(map += 2);
-	}
-	else if (ft_strncmp(map, "WE", 2) == 0)
-	{
-		ft_printf("3\n");
-		map_info->we = set_path(map += 2);
-	}
-	else if (ft_strncmp(map, "EA", 2) == 0)
-	{
-		ft_printf("4\n");
-		map_info->ea = set_path(map += 2);
-	}
-	// else if (ft_strncmp(map, "F", 2) == 0)
-	// 	set_color(map_info->f, map);
-	// else if (ft_strncmp(map, "C", 2) == 0)
-	// 	set_color(map_info->c, map);
+	*target = (rgb[0] << 16) + (rgb[1] << 8) + rgb[2];
+	return (0);
+}
+
+int	set_map_info(t_map *map_info, char *map)
+{
+	if (ft_strncmp(map, "NO", 2) == 0 && check_path_spell(map += 2))
+		set_path(&map_info->no, map);
+	else if (ft_strncmp(map, "SO", 2) == 0 && check_path_spell(map += 2))
+		set_path(&map_info->so, map);
+	else if (ft_strncmp(map, "WE", 2) == 0 && check_path_spell(map += 2))
+		set_path(&map_info->we, map);
+	else if (ft_strncmp(map, "EA", 2) == 0 && check_path_spell(map += 2))
+		set_path(&map_info->ea, map);
+	else if (ft_strncmp(map, "F", 1) == 0 && check_path_spell(map += 1))
+		return (set_color(&map_info->f, map));
+	else if (ft_strncmp(map, "C", 1) == 0 && check_path_spell(map += 1))
+		return (set_color(&map_info->c, map));
+	return (0);
 }
 
 int	map_check(t_map *map_info)
 {
 	int	column = -1;
-	char	*map;
 
 	if (!map_info->map || !map_info->map[0])
 		return (1);
 	while (map_info->map[++column])
 	{
-		map = ft_strdup(map_info->map[column]);
-		set_map_info(map_info, map);
-		free(map);
+		if (set_map_info(map_info, map_info->map[column]))
+			return (1);
 	}
-	// ft_printf("mapinfo->no: %s\n", map_info->no);
 	if (!map_info->no || !map_info->so || !map_info->we || !map_info->ea
-		|| !map_info->s || !map_info->f || !map_info->c)
+		|| map_info->f == -1 || map_info->c == -1)
 		return (1);
+	return (0);
+}
+
+int	map_info_init(t_map **map_info)
+{
+	(*map_info)->map = (char **)malloc(sizeof(char *) * 30);
+	if (!(*map_info)->map)
+		return (1);
+	(*map_info)->no = NULL;
+	(*map_info)->so = NULL;
+	(*map_info)->we = NULL;
+	(*map_info)->ea = NULL;
+	(*map_info)->f = -1;
+	(*map_info)->c = -1;
 	return (0);
 }
 
@@ -91,7 +99,8 @@ int	map_scan(t_map *map_info, char *argv)
 
 	y = 0;
 	fd = open(argv, O_RDONLY);
-	map_info->map = (char **)malloc(sizeof(char *) * OPEN_MAX);
+	if (fd == -1 || map_info_init(&map_info))
+		return (1);
 	while (1)
 	{
 		map_info->map[y] = get_next_line(fd);

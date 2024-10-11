@@ -6,7 +6,7 @@
 /*   By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 19:09:37 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/10/09 16:58:08 by kosnakam         ###   ########.fr       */
+/*   Updated: 2024/10/11 14:24:55 by kosnakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,12 +136,30 @@ void	cub(t_mlx mlx)
 {
 	mlx.mlx = mlx_init();
 	mlx.win = mlx_new_window(mlx.mlx, WINWIDTH, WINHEIGHT, "cub3D");
-	create_map(mlx);
+	// create_map(mlx);
 	mlx_hook(mlx.win, 17, 1L << 2, close_window, &mlx);
 	mlx_hook(mlx.win, 2, 1L << 0, key_press, &mlx);
-	mlx_loop_hook(mlx.mlx, put_color, &mlx);
-	mlx_hook(mlx.win, 3, 1L << 1, key_release, &mlx);
+	// mlx_loop_hook(mlx.mlx, put_color, &mlx);
+	// mlx_hook(mlx.win, 3, 1L << 1, key_release, &mlx);
+	mlx_pixel_put(mlx.mlx, mlx.win, 60, 60, mlx.map_info->f);
+	mlx_pixel_put(mlx.mlx, mlx.win, 80, 80, mlx.map_info->c);
 	mlx_loop(mlx.mlx);
+}
+
+void	ft_free(t_map *map_info)
+{
+	int	i = -1;
+	if (map_info->no)
+		free(map_info->no);
+	if (map_info->so)
+		free(map_info->so);
+	if (map_info->we)
+		free(map_info->we);
+	if (map_info->ea)
+		free(map_info->ea);
+	while (map_info->map[++i])
+		free(map_info->map[i]);
+	free(map_info->map);
 }
 
 int	main(int argc, char **argv)
@@ -156,6 +174,7 @@ int	main(int argc, char **argv)
 		exit(0);
 	if (map_scan(mlx.map_info, argv[1]))
 		exit(0);
-	// ft_printf("NO: %s\n", mlx.map_info->no);
+	cub(mlx);
+	ft_free(mlx.map_info);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/19 11:59:48 by kosnakam          #+#    #+#              #
-#    Updated: 2024/10/09 15:51:31 by kosnakam         ###   ########.fr        #
+#    Updated: 2024/10/11 14:38:59 by kosnakam         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ HEADERS			= $(shell find $(INCLUDE_DIR) $(LIBFT_DIR)$(INCLUDE_DIR) $(MLX_DIR)$(I
 DEPS			= $(HEADERS) $(MAKEFILE) $(LIBFT_DIR)$(LIBFT_NAME) $(MLX_DIR)$(MLX_NAME)
 
 # コンパイル設定
-CC				= clang
+CC				= cc
 CFLAGS			= -Wall -Wextra -Werror
 # MacOSの場合
 ifeq ($(shell uname), Darwin)

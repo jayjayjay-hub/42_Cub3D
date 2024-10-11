@@ -6,7 +6,7 @@
 /*   By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 19:10:51 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/10/09 15:29:51 by kosnakam         ###   ########.fr       */
+/*   Updated: 2024/10/11 13:55:52 by kosnakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ typedef struct s_map
 	char	*so;
 	char	*we;
 	char	*ea;
-	char	*s;
 	int		f;
 	int		c;
 	char	**map;
