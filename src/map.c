@@ -8,7 +8,7 @@ int check_map_spell(char **argv)
 	return (0);
 }
 
-int	check_path_spell(char *path)
+int	check_path_space(char *path)
 {
 	if (*path == 32 || (*path >= 9 && *path <= 13))
 		return (1);
@@ -40,23 +40,24 @@ int	set_color(int *target, char *map)
 		else
 			return (1);
 	}
+	free(rgb);
 	*target = (rgb[0] << 16) + (rgb[1] << 8) + rgb[2];
 	return (0);
 }
 
 int	set_map_info(t_map *map_info, char *map)
 {
-	if (ft_strncmp(map, "NO", 2) == 0 && check_path_spell(map += 2))
+	if (ft_strncmp(map, "NO", 2) == 0 && check_path_space(map += 2))
 		set_path(&map_info->no, map);
-	else if (ft_strncmp(map, "SO", 2) == 0 && check_path_spell(map += 2))
+	else if (ft_strncmp(map, "SO", 2) == 0 && check_path_space(map += 2))
 		set_path(&map_info->so, map);
-	else if (ft_strncmp(map, "WE", 2) == 0 && check_path_spell(map += 2))
+	else if (ft_strncmp(map, "WE", 2) == 0 && check_path_space(map += 2))
 		set_path(&map_info->we, map);
-	else if (ft_strncmp(map, "EA", 2) == 0 && check_path_spell(map += 2))
+	else if (ft_strncmp(map, "EA", 2) == 0 && check_path_space(map += 2))
 		set_path(&map_info->ea, map);
-	else if (ft_strncmp(map, "F", 1) == 0 && check_path_spell(map += 1))
+	else if (ft_strncmp(map, "F", 1) == 0 && check_path_space(map += 1))
 		return (set_color(&map_info->f, map));
-	else if (ft_strncmp(map, "C", 1) == 0 && check_path_spell(map += 1))
+	else if (ft_strncmp(map, "C", 1) == 0 && check_path_space(map += 1))
 		return (set_color(&map_info->c, map));
 	return (0);
 }
@@ -71,7 +72,10 @@ int	map_check(t_map *map_info)
 	{
 		if (set_map_info(map_info, map_info->map[column]))
 			return (1);
+		// if (set_map(map_info, map_info->map[column]))
+		// 	return (1);
 	}
+	ft_printf("map_info->map : %s\n", map_info->map[0]);
 	if (!map_info->no || !map_info->so || !map_info->we || !map_info->ea
 		|| map_info->f == -1 || map_info->c == -1)
 		return (1);
