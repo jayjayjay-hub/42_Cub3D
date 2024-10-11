@@ -1,5 +1,29 @@
 #include "cub3D.h"
 
+void	clear_check(char **map, int y, int x)
+{
+	if (map[y][x] == '1')
+		;
+	else
+	{
+		map[y][x] = '1';
+		// if (!map[y++][x])
+		// 	ft_printf("error\n");
+		// if (!map[y--][x])
+		// 	ft_printf("error\n");
+		// if (!map[y][x++])
+		// 	ft_printf("error\n");
+		// if (!map[y][x--])
+		// 	ft_printf("error\n");
+		if (y - 1 < 0 || x - 1 < 0)
+			ft_printf("error\n");
+		clear_check(map, y + 1, x);
+		clear_check(map, y - 1, x);
+		clear_check(map, y, x + 1);
+		clear_check(map, y, x - 1);
+	}
+}
+
 int	map_check(t_map *map_info)
 {
 	if (!map_info->map || !map_info->map[0])
@@ -7,6 +31,8 @@ int	map_check(t_map *map_info)
 	if (!map_info->no || !map_info->so || !map_info->we || !map_info->ea
 		|| map_info->f == -1 || map_info->c == -1)
 		return (1);
+	clear_check(map_info->map, 9, 25);
+	ft_printf("map%s", map_info->map[6]);
 	return (0);
 }
 
@@ -78,26 +104,27 @@ int	set_map_info(t_map *map_info, char *map)
 
 int	map_info_init(t_map **map_info, char *argv)
 {
-	int	count = 0;
-	int	fd;
-	char	buffer[1];
-	int bytes = 1;
+	// int	count = 0;
+	// int	fd;
+	// char	buffer[1];
+	// int bytes = 1;
 
-	buffer[0] = '\0';
-	fd = open(argv, O_RDONLY);
-	while (bytes == 1)
-	{
-		bytes = read(fd, buffer, 1);
-		if (bytes < 1)
-			break ;
-		if (buffer[0] == '\n')
-			count++;
-	}
-	close(fd);
-	(*map_info)->map = (char **)malloc(sizeof(char *) * (count - 5));
+	// buffer[0] = '\0';
+	// fd = open(argv, O_RDONLY);
+	// while (bytes == 1)
+	// {
+	// 	bytes = read(fd, buffer, 1);
+	// 	if (bytes < 1)
+	// 		break ;
+	// 	if (buffer[0] == '\n')
+	// 		count++;
+	// }
+	// close(fd);
+	argv = NULL;
+	(*map_info)->map = (char **)malloc(sizeof(char *) * (30));
 	if (!(*map_info)->map)
 		return (1);
-	(*map_info)->map[count - 6] = NULL;
+	(*map_info)->map[30] = NULL;
 	(*map_info)->no = NULL;
 	(*map_info)->so = NULL;
 	(*map_info)->we = NULL;
