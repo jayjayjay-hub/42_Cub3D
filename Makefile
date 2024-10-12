@@ -48,6 +48,8 @@ NORM			= norminette
 
 # ソースファイルをまとめる
 SRC_FILES		= $(shell find $(SRC_DIR) -name "*.c" | sed "s/.*\///")
+# src/utils/*.cを最後に追加
+SRC_FILES		+= $(shell find $(SRC_DIR)utils -name "*.c" | sed "s/.*\///")
 
 # オブジェクトファイルをまとめる
 OBJS			= $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))

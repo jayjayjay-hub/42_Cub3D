@@ -41,27 +41,27 @@ void	drow_player(void *mlx, void *win, t_player *player)
 // プレイヤーを動かす関数
 int	key_hook(int keycode, t_player *player)
 {
+	if (keycode == ESC)
+	{
+		close_window(player->mlx, player->win);
+	}
 	if (keycode == UP)
 	{
-		printf("UP\n");
 		player->x += cos(player->angle) * player->speed;
 		player->y += sin(player->angle) * player->speed;
 	}
 	if (keycode == DOWN)
 	{
-		printf("DOWN\n");
 		player->x -= cos(player->angle) * player->speed;
 		player->y -= sin(player->angle) * player->speed;
 	}
 	if (keycode == LEFT)
 	{
-		printf("LEFT\n");
 		player->x += cos(player->angle - M_PI_2) * player->speed;
 		player->y += sin(player->angle - M_PI_2) * player->speed;
 	}
 	if (keycode == RIGHT)
 	{
-		printf("RIGHT\n");
 		player->x += cos(player->angle + M_PI_2) * player->speed;
 		player->y += sin(player->angle + M_PI_2) * player->speed;
 	}
@@ -87,12 +87,6 @@ void	init_player(t_player *player, void *mlx, void *win)
 	player->win = win;
 }
 
-int	close_window(void *mlx, void *win)
-{
-	mlx_destroy_window(mlx, win);
-	exit(0);
-}
-
 int	main(void)
 {
 	void	*mlx;
@@ -103,6 +97,7 @@ int	main(void)
 	win = mlx_new_window(mlx, 800, 800, "Hello world!");
 	init_player(&player, mlx, win);
 	drow_player(mlx, win, &player);
+	mlx_hook(win, DESTROYNOTIFY, STRUCTURENOTIFYMASK, close_window, mlx);
 	mlx_hook(win, 2, 1L << 0, key_hook, &player);
 	mlx_loop(mlx);
 	return (0);

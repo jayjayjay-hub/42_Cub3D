@@ -69,4 +69,8 @@
 #  define STRUCTURENOTIFYMASK StructureNotifyMask
 # endif
 
+
+// utils/windows.c
+int	close_window(void *mlx, void *win);
+
 #endif
