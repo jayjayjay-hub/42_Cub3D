@@ -57,7 +57,20 @@ typedef struct s_vector
 	double	y;
 }	t_vector;
 
+typedef struct s_ray
+{
+	/*
+	** レイ (光線)
+	** レイの始点
+	** x, y: 始点の座標
+	*/
+	t_vector	pos; // rayの視点からの位置ベクトル
+	t_vector	dir; // rayの方向ベクトル
+}	t_ray;
+
+
 /* vector.c (ベクトルの計算) */
+
 t_vector	vector_add(t_vector a, t_vector b);
 t_vector	vector_sub(t_vector a, t_vector b);
 t_vector	vector_mul(t_vector a, double b);
@@ -71,5 +84,11 @@ t_vector	vector_reflect(t_vector a, t_vector normal);
 t_vector	vector_project(t_vector a, t_vector b);
 t_vector	vector_reject(t_vector a, t_vector b);
 t_vector	vector_rotate(t_vector a, double angle);
+
+/* ray.c (レイの計算) */
+
+t_ray		ray_init(t_vector pos, t_vector dir);
+t_vector	ray_begin(t_ray ray);
+t_vector	ray_end(t_ray ray);
 
 #endif
