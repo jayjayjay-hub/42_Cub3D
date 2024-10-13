@@ -75,8 +75,13 @@ void	drow_player(t_game *game, t_player *player)
 ** player: プレイヤー構造体
 ** keycode: キーコード
 */
-int	key_hook(t_player *player, int keycode)
+int	key_hook(int keycode, t_game *game)
 {
+	t_player	*player;
+
+	player = &game->player;
+	if (keycode == ESC)
+		window_exit(game);
 	if (keycode == UP)
 	{
 		player->pos.x += player->dir.x * player->speed;

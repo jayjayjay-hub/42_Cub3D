@@ -51,6 +51,9 @@
 # define M_PI 3.14159265358979323846
 # define M_PI_2 1.57079632679489661923
 
+# define WIN_WIDTH 640
+# define WIN_HEIGHT 480
+
 typedef struct s_vector
 {
 	double	x;
@@ -131,6 +134,11 @@ t_vector	ray_end(t_ray ray);
 
 t_player	player_init(double x, double y, double angle, double speed);
 void		drow_player(t_game *game, t_player *player);
-int			key_hook(int keycode, t_player *player);
+int			key_hook(int keycode, t_game *game);
+
+/* window.c (ウィンドウの計算) */
+
+void	window_init(t_game *game);
+void	window_exit(t_game *game);
 
 #endif
