@@ -68,6 +68,42 @@ typedef struct s_ray
 	t_vector	dir; // rayの方向ベクトル
 }	t_ray;
 
+typedef struct s_player
+{
+	t_vector	pos;
+	t_vector	dir;
+	double		angle; // radian
+	double		speed;
+}	t_player;
+
+typedef struct s_texture
+{
+	void	*img;
+	int		*data;
+	int		width;
+	int		height;
+}	t_texture;
+
+typedef struct s_map
+{
+	int		width;
+	int		height;
+	char	**data;
+}	t_map;
+
+typedef struct s_game
+{
+	void		*mlx;
+	void		*win;
+	t_player	player;
+	t_texture	north;
+	t_texture	south;
+	t_texture	west;
+	t_texture	east;
+	t_texture	ceiling;
+	t_texture	floor;
+	t_map		map;
+}	t_game;
 
 /* vector.c (ベクトルの計算) */
 
@@ -83,11 +119,18 @@ t_vector	vector_from_to(t_vector from, t_vector to);
 t_vector	vector_reflect(t_vector a, t_vector normal);
 t_vector	vector_project(t_vector a, t_vector b);
 t_vector	vector_rotate(t_vector a, double angle);
+t_vector	vector_from_angle(double angle);
 
 /* ray.c (レイの計算) */
 
 t_ray		ray_init(t_vector pos, t_vector dir);
 t_vector	ray_begin(t_ray ray);
 t_vector	ray_end(t_ray ray);
+
+/* player.c (プレイヤーの計算) */
+
+t_player	player_init(double x, double y, double angle, double speed);
+void		drow_player(t_game *game, t_player *player);
+int			key_hook(int keycode, t_player *player);
 
 #endif
