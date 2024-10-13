@@ -102,9 +102,10 @@ int	key_hook(int keycode, t_game *game)
 		player->pos.x -= player->dir.y * player->speed;
 		player->pos.y += player->dir.x * player->speed;
 	}
-	if (keycode == UP_ARROW)
+	if (keycode == RIGHT_ARROW)
 		player->dir = vector_rotate(player->dir, 0.1);
-	if (keycode == DOWN_ARROW)
+	if (keycode == LEFT_ARROW)
 		player->dir = vector_rotate(player->dir, -0.1);
+	drow_player(game, player);
 	return (0);
 }
