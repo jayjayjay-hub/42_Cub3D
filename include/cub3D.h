@@ -45,4 +45,31 @@
 #  define STRUCTURENOTIFYMASK StructureNotifyMask
 # endif
 
+# define TILE_SIZE 64
+# define BACKGROUND_SIZE 256
+
+# define M_PI 3.14159265358979323846
+# define M_PI_2 1.57079632679489661923
+
+typedef struct s_vector
+{
+	double	x;
+	double	y;
+}	t_vector;
+
+/* vector.c (ベクトルの計算) */
+t_vector	vector_add(t_vector a, t_vector b);
+t_vector	vector_sub(t_vector a, t_vector b);
+t_vector	vector_mul(t_vector a, double b);
+t_vector	vector_div(t_vector a, double b);
+t_vector	vector_normalize(t_vector a);
+double		vector_len(t_vector a);
+double		vector_dot(t_vector a, t_vector b);
+double		vector_cross(t_vector a, t_vector b);
+t_vector	vector_from_to(t_vector from, t_vector to);
+t_vector	vector_reflect(t_vector a, t_vector normal);
+t_vector	vector_project(t_vector a, t_vector b);
+t_vector	vector_reject(t_vector a, t_vector b);
+t_vector	vector_rotate(t_vector a, double angle);
+
 #endif
