@@ -82,7 +82,6 @@ double		vector_cross(t_vector a, t_vector b);
 t_vector	vector_from_to(t_vector from, t_vector to);
 t_vector	vector_reflect(t_vector a, t_vector normal);
 t_vector	vector_project(t_vector a, t_vector b);
-t_vector	vector_reject(t_vector a, t_vector b);
 t_vector	vector_rotate(t_vector a, double angle);
 
 /* ray.c (レイの計算) */
