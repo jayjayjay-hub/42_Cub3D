@@ -144,5 +144,6 @@ int			key_hook(int keycode, t_game *game);
 
 void	window_init(t_game *game);
 void	window_exit(t_game *game);
+void	draw_map(t_game *game);
 
 #endif
