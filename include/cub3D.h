@@ -108,6 +108,10 @@ typedef struct s_game
 	t_map		map;
 }	t_game;
 
+/* main.c (メイン関数) */
+
+int			game_update(t_game *game);
+
 /* vector.c (ベクトルの計算) */
 
 t_vector	vector_add(t_vector a, t_vector b);

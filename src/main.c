@@ -38,6 +38,7 @@ void	game_init(t_game *game)
 */
 int	game_update(t_game *game)
 {
+	mlx_clear_window(game->mlx, game->win);
 	drow_player(game, &game->player);
 	return (0);
 }

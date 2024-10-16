@@ -33,8 +33,6 @@ void	drow_player(t_game *game, t_player *player)
 	int		x;
 	t_vector	dir;
 
-	// まず画面をクリア
-	mlx_clear_window(game->mlx, game->win);
 	// プレイヤーの描画
 	x = -5;
 	while (x < 6)
@@ -106,6 +104,6 @@ int	key_hook(int keycode, t_game *game)
 		player->dir = vector_rotate(player->dir, 0.1);
 	if (keycode == LEFT_ARROW)
 		player->dir = vector_rotate(player->dir, -0.1);
-	drow_player(game, player);
+	game_update(game);
 	return (0);
 }
