@@ -6,7 +6,7 @@
 /*   By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 19:09:37 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/10/11 14:24:55 by kosnakam         ###   ########.fr       */
+/*   Updated: 2024/10/17 15:06:04 by kosnakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	put_pixel(t_img img, int x, int y, char pixel)
 	img.img = mlx_xpm_file_to_image(img.mlx.mlx,
 			img.relative_path, &img.img_width, &img.img_height);
 	mlx_put_image_to_window(img.mlx.mlx, img.mlx.win, img.img, x, y);
+	// mlx_new_image
+	// mlx_put_image_to_window
 }
 
 void	create_map(t_mlx mlx)

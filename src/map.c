@@ -8,9 +8,9 @@ int	check_map_spell(char **argv)
 	return (0);
 }
 
-int	check_path_space(char *path)
+int	check_space(char arg)
 {
-	if (*path == 32 || (*path >= 9 && *path <= 13))
+	if (arg == 32 || (arg >= 9 && arg <= 13))
 		return (1);
 	return (0);
 }
@@ -71,39 +71,55 @@ int	map_info_init(t_map **map_info, char *argv)
 	return (0);
 }
 
-void	map_wall_check(char **map, int y, int x)
+int	wall_spell_check(char **map, int y, int x)
 {
+	if (!map[y + 1][x] || !map[y - 1][x] || !map[y][x + 1]
+		|| !map[y][x - 1])
+		return (1);
+	if (check_space(map[y + 1][x]) || check_space(map[y - 1][x])
+		|| check_space(map[y][x + 1]) || check_space(map[y][x - 1]))
+		return (1);
+	return (0);
+}
+
+void	wall_check(char **map, int y, int x, unsigned int *i)
+{
+	*i += 1;
+	if (*i > 10000)
+	{
+		ft_printf("error\n");
+		exit(1);
+	}
 	if (map[y][x] == '1')
 		return ;
 	else
 	{
 		map[y][x] = '1';
-		if (!map[y + 1][x] || !map[y - 1][x]
-			|| !map[y][x + 1] || !map[y][x - 1])
+		if (wall_spell_check(map, y, x))
 		{
 			ft_printf("error\n");
 			exit(1);
 		}
-		map_wall_check(map, y + 1, x);
-		map_wall_check(map, y - 1, x);
-		map_wall_check(map, y, x + 1);
-		map_wall_check(map, y, x - 1);
+		wall_check(map, y + 1, x, i);
+		wall_check(map, y - 1, x, i);
+		wall_check(map, y, x + 1, i);
+		wall_check(map, y, x - 1, i);
 	}
 }
 
 int	set_map_info(t_map *map_info, char *map)
 {
-	if (ft_strncmp(map, "NO", 2) == 0 && check_path_space(map += 2))
+	if (ft_strncmp(map, "NO", 2) == 0 && check_space(*(map += 2)))
 		return (set_path(&map_info->no, map));
-	else if (ft_strncmp(map, "SO", 2) == 0 && check_path_space(map += 2))
+	else if (ft_strncmp(map, "SO", 2) == 0 && check_space(*(map += 2)))
 		return (set_path(&map_info->so, map));
-	else if (ft_strncmp(map, "WE", 2) == 0 && check_path_space(map += 2))
+	else if (ft_strncmp(map, "WE", 2) == 0 && check_space(*(map += 2)))
 		return (set_path(&map_info->we, map));
-	else if (ft_strncmp(map, "EA", 2) == 0 && check_path_space(map += 2))
+	else if (ft_strncmp(map, "EA", 2) == 0 && check_space(*(map += 2)))
 		return (set_path(&map_info->ea, map));
-	else if (ft_strncmp(map, "F", 1) == 0 && check_path_space(map += 1))
+	else if (ft_strncmp(map, "F", 1) == 0 && check_space(*(map += 1)))
 		return (set_color(&map_info->f, map));
-	else if (ft_strncmp(map, "C", 1) == 0 && check_path_space(map += 1))
+	else if (ft_strncmp(map, "C", 1) == 0 && check_space(*(map += 1)))
 		return (set_color(&map_info->c, map));
 	return (2);
 }
@@ -156,6 +172,9 @@ int	map_spell_check(t_map *map_info, char **map)
 
 int	map_check(t_map *map_info)
 {
+	unsigned int	i;
+
+	i = 0;
 	if (!map_info->map || !map_info->map[0])
 		return (1);
 	if (!map_info->no || !map_info->so || !map_info->we || !map_info->ea
@@ -163,7 +182,8 @@ int	map_check(t_map *map_info)
 		return (1);
 	if (map_spell_check(map_info, map_info->map))
 		return (1);
-	map_wall_check(map_info->map, map_info->player_y, map_info->player_x);
+	
+	wall_check(map_info->map, map_info->player_y, map_info->player_x, &i);
 	return (0);
 }
 
