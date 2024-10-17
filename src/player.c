@@ -30,7 +30,8 @@ t_player	player_init(double x, double y, double angle, double speed)
 */
 void	drow_player(t_game *game, t_player *player)
 {
-	int		x;
+	int			x;
+	int			y;
 	t_vector	dir;
 
 	// プレイヤーの描画
@@ -41,10 +42,14 @@ void	drow_player(t_game *game, t_player *player)
 		mlx_pixel_put(game->mlx, game->win, player->pos.x, player->pos.y + x, 0x00FF0000);
 		x++;
 	}
-	// プレイヤーの向き
-	dir = vector_mul(player->dir, 50);
-	mlx_pixel_put(game->mlx, game->win, player->pos.x, player->pos.y, 0x00FF0000);
-	mlx_pixel_put(game->mlx, game->win, player->pos.x + dir.x, player->pos.y + dir.y, 0x00FF0000);
+	// // プレイヤーが向いている方向に50の線を引く
+	x = 0;
+	y = 0;
+	while (y < 50)
+	{
+		mlx_pixel_put(game->mlx, game->win, player->pos.x + player->dir.x * y, player->pos.y + player->dir.y * y, 0x00FF0000);
+		y++;
+	}
 	// プレイヤーの視界
 	x = 0;
 	while (x < 60)
