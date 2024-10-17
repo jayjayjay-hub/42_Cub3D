@@ -66,8 +66,8 @@ int	map_info_init(t_map **map_info, char *argv)
 	(*map_info)->ea = NULL;
 	(*map_info)->f = -1;
 	(*map_info)->c = -1;
-	(*map_info)->player_x = -1;
-	(*map_info)->player_y = -1;
+	(*map_info)->p_x = -1;
+	(*map_info)->p_y = -1;
 	return (0);
 }
 
@@ -82,13 +82,13 @@ int	wall_spell_check(char **map, int y, int x)
 	return (0);
 }
 
-void	wall_check(char **map, int y, int x, unsigned int *i)
+void	wall_check(char **map, int y, int x, unsigned int *i, int *flag)
 {
 	*i += 1;
 	if (*i > 10000)
 	{
-		ft_printf("error\n");
-		exit(1);
+		*flag = 1;
+		return ;
 	}
 	if (map[y][x] == '1')
 		return ;
@@ -97,13 +97,13 @@ void	wall_check(char **map, int y, int x, unsigned int *i)
 		map[y][x] = '1';
 		if (wall_spell_check(map, y, x))
 		{
-			ft_printf("error\n");
-			exit(1);
+			*flag = 1;
+			return ;
 		}
-		wall_check(map, y + 1, x, i);
-		wall_check(map, y - 1, x, i);
-		wall_check(map, y, x + 1, i);
-		wall_check(map, y, x - 1, i);
+		wall_check(map, y + 1, x, i, flag);
+		wall_check(map, y - 1, x, i, flag);
+		wall_check(map, y, x + 1, i, flag);
+		wall_check(map, y, x - 1, i, flag);
 	}
 }
 
@@ -157,10 +157,10 @@ int	map_spell_check(t_map *map_info, char **map)
 			{
 				if (spell_check(map[y][x], 2))
 				{
-					if (map_info->player_x != -1)
+					if (map_info->p_x != -1)
 						return (1);
-					map_info->player_x = x;
-					map_info->player_y = y;
+					map_info->p_x = x;
+					map_info->p_y = y;
 				}
 			}
 			else
@@ -173,8 +173,10 @@ int	map_spell_check(t_map *map_info, char **map)
 int	map_check(t_map *map_info)
 {
 	unsigned int	i;
+	int				flag;
 
 	i = 0;
+	flag = 0;
 	if (!map_info->map || !map_info->map[0])
 		return (1);
 	if (!map_info->no || !map_info->so || !map_info->we || !map_info->ea
@@ -182,8 +184,9 @@ int	map_check(t_map *map_info)
 		return (1);
 	if (map_spell_check(map_info, map_info->map))
 		return (1);
-	
-	wall_check(map_info->map, map_info->player_y, map_info->player_x, &i);
+	wall_check(map_info->map, map_info->p_y, map_info->p_x, &i, &flag);
+	if (flag)
+		return (1);
 	return (0);
 }
 
