@@ -61,9 +61,29 @@ void	draw_map(t_game *game)
 		while (x < 25)
 		{
 			if (mapstr[y * 25 + x] == '1')
-				mlx_pixel_put(game->mlx, game->win, x, y, 0x00FFFFFF);
+				draw_square(game, x * 25, y * 25, 25, 0x00FF00);
+			else
+				draw_square(game, x * 25, y * 25, 25, 0x000000);
 			x++;
 		}
 		y++;
+	}
+}
+
+void	draw_square(t_game *game, int x, int y, int size, int color)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	while (i < size)
+	{
+		j = 0;
+		while (j < size)
+		{
+			mlx_pixel_put(game->mlx, game->win, x + i, y + j, color);
+			j++;
+		}
+		i++;
 	}
 }
