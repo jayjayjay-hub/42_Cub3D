@@ -17,7 +17,6 @@ t_line	line_from_points(t_vector vec1, t_vector vec2)
 		ret.intercept = vec1.x;
 		return (ret);
 	}
-
 	ret.inclination = (vec2.y - vec1.y) / (vec2.x - vec1.x);
 	ret.intercept = vec1.y - ret.inclination * vec1.x;
 	return (ret);

@@ -2,7 +2,6 @@
 
 // segment.c
 
-
 /*
 ** t_line_segmentを作成する関数
 ** start: 始点
@@ -23,15 +22,15 @@ t_line_segment	line_segment_init(t_vector start, t_vector end)
 ** line1: 線分1
 ** line2: 線分2
 */
-bool is_intersect(t_line_segment line1, t_line_segment line2)
+bool	is_intersect(t_line_segment line1, t_line_segment line2)
 {
 	if ((line1.start.x <= line2.start.x && line2.start.x <= line1.end.x)
 		|| (line1.start.x <= line2.end.x && line2.end.x <= line1.end.x))
-		{
-			if ((line1.start.y <= line2.start.y && line2.start.y <= line1.end.y)
-				|| (line1.start.y <= line2.end.y && line2.end.y <= line1.end.y))
-				return (true);
-		}
+	{
+		if ((line1.start.y <= line2.start.y && line2.start.y <= line1.end.y)
+			|| (line1.start.y <= line2.end.y && line2.end.y <= line1.end.y))
+			return (true);
+	}
 	return (false);
 }
 
@@ -42,9 +41,9 @@ bool is_intersect(t_line_segment line1, t_line_segment line2)
 */
 t_vector	line_intersection(t_line_segment line1, t_line_segment line2)
 {
-	double	det;
-	double	t;
-	double	s;
+	double		det;
+	double		t;
+	double		s;
 	t_vector	ret;
 
 	det = (line1.end.x - line1.start.x) * (line2.end.y - line2.start.y)
