@@ -51,6 +51,11 @@
 # define M_PI 3.14159265358979323846
 # define M_PI_2 1.57079632679489661923
 
+# define FOV_ANGLE (M_PI / 2)
+# define FOV_ANGLE_HALF (FOV_ANGLE / 2)
+# define NUM_RAYS 20
+# define VIEW_DISTANCE 150
+
 # define WIN_WIDTH 2048
 # define WIN_HEIGHT 1024
 

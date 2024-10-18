@@ -46,16 +46,16 @@ void	raycasting(t_game *game, t_player *player)
 	int		x;
 
 	x = 1;
-	angle_step = (M_PI / 3) / 20; // 60度（π/3）を20分割
-	ray = ray_to_segment(ray_init(player->pos, player->dir), 150);
+	angle_step = FOV_ANGLE_HALF / NUM_RAYS;
+	ray = ray_to_segment(ray_init(player->pos, player->dir), VIEW_DISTANCE);
 	check_wall(game, ray, 0, 0);
 	while (x <= 20)
 	{
 		dir = vector_rotate(player->dir, x * angle_step);
-		ray = ray_to_segment(ray_init(player->pos, dir), 150);
+		ray = ray_to_segment(ray_init(player->pos, dir), VIEW_DISTANCE);
 		check_wall(game, ray, x, x * angle_step);
 		dir = vector_rotate(player->dir, -x * angle_step);
-		ray = ray_to_segment(ray_init(player->pos, dir), 150);
+		ray = ray_to_segment(ray_init(player->pos, dir), VIEW_DISTANCE);
 		check_wall(game, ray, x * -1, x * -angle_step);
 		x++;
 	}

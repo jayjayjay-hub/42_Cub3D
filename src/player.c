@@ -34,7 +34,6 @@ void	draw_player(t_game *game, t_player *player)
 	t_vector	dir;
 	double		angle_step;
 
-	// プレイヤーの描画
 	x = -5;
 	while (x < 6)
 	{
@@ -42,17 +41,15 @@ void	draw_player(t_game *game, t_player *player)
 		mlx_pixel_put(game->mlx, game->win, player->pos.x, player->pos.y + x, MRED);
 		x++;
 	}
-	// // プレイヤーが向いている方向に50の線を引く
-	mlx_line_put(game, ray_init(player->pos, player->dir), 150, MRED);
-	// プレイヤーの向いている方向の左右1度ずつに線を引く (視野角60度)
+	mlx_line_put(game, ray_init(player->pos, player->dir), VIEW_DISTANCE, MRED);
 	x = 1;
-	angle_step = (M_PI / 3) / 20; // 60度（π/4）を20分割
-	while (x <= 20)
+	angle_step = FOV_ANGLE_HALF / NUM_RAYS;
+	while (x <= NUM_RAYS)
 	{
 		dir = vector_rotate(player->dir, x * angle_step);
-		mlx_line_put(game, ray_init(player->pos, dir), 150, MRED);
+		mlx_line_put(game, ray_init(player->pos, dir), VIEW_DISTANCE, MRED);
 		dir = vector_rotate(player->dir, -x * angle_step);
-		mlx_line_put(game, ray_init(player->pos, dir), 150, MRED);
+		mlx_line_put(game, ray_init(player->pos, dir), VIEW_DISTANCE, MRED);
 		x++;
 	}
 }
