@@ -3,6 +3,19 @@
 // vector.c
 
 /*
+** ベクトルの初期化
+** x, y: ベクトルの座標
+*/
+t_vector	vector_init(double x, double y)
+{
+	t_vector	ret;
+
+	ret.x = x;
+	ret.y = y;
+	return (ret);
+}
+
+/*
 ** ベクトルの足し算
 ** a = (a.x, a.y)
 ** b = (b.x, b.y)

@@ -38,21 +38,21 @@ void	draw_player(t_game *game, t_player *player)
 	x = -5;
 	while (x < 6)
 	{
-		mlx_pixel_put(game->mlx, game->win, player->pos.x + x, player->pos.y, 0x00FF0000);
-		mlx_pixel_put(game->mlx, game->win, player->pos.x, player->pos.y + x, 0x00FF0000);
+		mlx_pixel_put(game->mlx, game->win, player->pos.x + x, player->pos.y, MRED);
+		mlx_pixel_put(game->mlx, game->win, player->pos.x, player->pos.y + x, MRED);
 		x++;
 	}
 	// // プレイヤーが向いている方向に50の線を引く
-	mlx_line_put(game, ray_init(player->pos, player->dir), 80, 0x00FF0000);
+	mlx_line_put(game, ray_init(player->pos, player->dir), 80, MRED);
 	// プレイヤーの向いている方向の左右1度ずつに線を引く (視野角60度)
 	x = 1;
 	angle_step = (M_PI / 3) / 20; // 60度（π/4）を20分割
 	while (x <= 20)
 	{
 		dir = vector_rotate(player->dir, x * angle_step);
-		mlx_line_put(game, ray_init(player->pos, dir), 80, 0x00FF0000);
+		mlx_line_put(game, ray_init(player->pos, dir), 80, MRED);
 		dir = vector_rotate(player->dir, -x * angle_step);
-		mlx_line_put(game, ray_init(player->pos, dir), 80, 0x00FF0000);
+		mlx_line_put(game, ray_init(player->pos, dir), 80, MRED);
 		x++;
 	}
 }

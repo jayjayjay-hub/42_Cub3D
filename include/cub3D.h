@@ -59,6 +59,12 @@
 # define WEST M_PI
 # define EAST 0
 
+# define MRED 0x00FF0000
+# define MGREEN 0x0000FF00
+# define MBLUE 0x000000FF
+# define MWHITE 0x00FFFFFF
+# define MBLACK 0x00000000
+
 typedef struct s_vector
 {
 	double	x;
