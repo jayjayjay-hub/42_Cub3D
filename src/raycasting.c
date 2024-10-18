@@ -38,15 +38,15 @@ void	raycasting(t_game *game, t_player *player)
 
 	x = 1;
 	angle_step = (M_PI / 3) / 20; // 60度（π/3）を20分割
-	ray = ray_to_segment(ray_init(player->pos, player->dir), 1000);
+	ray = ray_to_segment(ray_init(player->pos, player->dir), 150);
 	check_wall(game, ray);
 	while (x <= 20)
 	{
 		dir = vector_rotate(player->dir, x * angle_step);
-		ray = ray_to_segment(ray_init(player->pos, dir), 1000);
+		ray = ray_to_segment(ray_init(player->pos, dir), 150);
 		check_wall(game, ray);
 		dir = vector_rotate(player->dir, -x * angle_step);
-		ray = ray_to_segment(ray_init(player->pos, dir), 1000);
+		ray = ray_to_segment(ray_init(player->pos, dir), 150);
 		check_wall(game, ray);
 		x++;
 	}
