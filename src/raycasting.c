@@ -2,7 +2,7 @@
 
 // raycasting.c
 
-void	check_wall(t_game *game, t_line_segment ray, int num)
+void	check_wall(t_game *game, t_line_segment ray, int num, double angle)
 {
 	t_line_segment	segment_1;
 	t_line_segment	segment_2;
@@ -16,19 +16,19 @@ void	check_wall(t_game *game, t_line_segment ray, int num)
 	if (intersection.x != -1 && intersection.y != -1)
 	{
 		draw_circle(game, intersection.x, intersection.y, 3, MWHITE);
-		draw_wall(game, num, vector_len(vector_from_to(ray.start, intersection)));
+		draw_wall(game, num, angle, vector_len(vector_from_to(ray.start, intersection)));
 	}
 	intersection = line_intersection(ray, segment_2);
 	if (intersection.x != -1 && intersection.y != -1)
 	{
 		draw_circle(game, intersection.x, intersection.y, 3, MWHITE);
-		draw_wall(game, num, vector_len(vector_from_to(ray.start, intersection)));
+		draw_wall(game, num, angle, vector_len(vector_from_to(ray.start, intersection)));
 	}
 	intersection = line_intersection(ray, segment_3);
 	if (intersection.x != -1 && intersection.y != -1)
 	{
 		draw_circle(game, intersection.x, intersection.y, 3, MWHITE);
-		draw_wall(game, num, vector_len(vector_from_to(ray.start, intersection)));
+		draw_wall(game, num, angle, vector_len(vector_from_to(ray.start, intersection)));
 	}
 }
 
@@ -48,15 +48,15 @@ void	raycasting(t_game *game, t_player *player)
 	x = 1;
 	angle_step = (M_PI / 3) / 20; // 60度（π/3）を20分割
 	ray = ray_to_segment(ray_init(player->pos, player->dir), 150);
-	check_wall(game, ray, 0);
+	check_wall(game, ray, 0, 0);
 	while (x <= 20)
 	{
 		dir = vector_rotate(player->dir, x * angle_step);
 		ray = ray_to_segment(ray_init(player->pos, dir), 150);
-		check_wall(game, ray, x);
+		check_wall(game, ray, x, x * angle_step);
 		dir = vector_rotate(player->dir, -x * angle_step);
 		ray = ray_to_segment(ray_init(player->pos, dir), 150);
-		check_wall(game, ray, x * -1);
+		check_wall(game, ray, x * -1, x * -angle_step);
 		x++;
 	}
 }
@@ -65,16 +65,16 @@ void	raycasting(t_game *game, t_player *player)
 ** 壁を描画する関数
 ** game: ゲーム構造体
 ** num: レイの番号
+** angle: レイの角度
 ** distance: 壁までの距離
 */
-void	draw_wall(t_game *game, int num, double distance)
+void	draw_wall(t_game *game, int num, double angle, double distance)
 {
 	t_vector	start;
 	t_vector	size;
 	double		rate;
 
-	printf("distance: %f\n", distance);
-	rate = 300 / (distance * 0.005);
+	rate = 10000 / (distance * cos(angle));
 	start = vector_init(1000, 300);
 	size = vector_init(10, rate);
 	start.x += num * 20;

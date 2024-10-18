@@ -190,6 +190,6 @@ t_vector	line_intersection(t_line_segment line1, t_line_segment line2);
 /* raycasting.c (レイキャスティング) */
 
 void	raycasting(t_game *game, t_player *player);
-void	draw_wall(t_game *game, int num, double distance);
+void	draw_wall(t_game *game, int num, double angle, double distance);
 
 #endif
