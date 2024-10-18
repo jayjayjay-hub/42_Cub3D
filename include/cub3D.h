@@ -6,7 +6,7 @@
 /*   By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 19:10:51 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/10/17 16:54:36 by kosnakam         ###   ########.fr       */
+/*   Updated: 2024/10/18 16:52:53 by kosnakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,10 @@
 #  define STRUCTURENOTIFYMASK StructureNotifyMask
 # endif
 
-# define WINWIDTH 1200
-# define WINHEIGHT 800
+# define WINWIDTH 1280
+# define WINHEIGHT 832
+# define MAPWIDTH 320
+# define MAPHEIGHT 160
 # define PIXELSIZE 64
 # define CHARSPEED 50
 
@@ -95,7 +97,7 @@ typedef struct s_mlx
 	int		x;
 	int		y;
 	struct s_map	*map_info;
-	// struct s_img	*img;
+	struct s_img	*img;
 }	t_mlx;
 
 typedef struct s_map
@@ -113,11 +115,15 @@ typedef struct s_map
 
 typedef struct s_img
 {
-	struct s_mlx	mlx;
+	struct s_mlx	*mlx;
+	char	*data;
 	void	*img;
 	char	*relative_path;
 	int		img_width;
 	int		img_height;
+	int		bpp;
+	int		size_line;
+	int		endian;
 }	t_img;
 
 // map.c

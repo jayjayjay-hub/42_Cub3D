@@ -6,7 +6,7 @@
 #    By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/19 11:59:48 by kosnakam          #+#    #+#              #
-#    Updated: 2024/10/11 14:38:59 by kosnakam         ###   ########.fr        #
+#    Updated: 2024/10/18 16:03:16 by kosnakam         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,7 @@ ifeq ($(shell uname), Darwin)
 	LFLAGS		= -framework OpenGL -framework AppKit
 # Linuxの場合
 else
-	LFLAGS		= -lXext -lX11
+	LFLAGS		= -lXext -lX11 -lm
 endif
 
 # コマンド

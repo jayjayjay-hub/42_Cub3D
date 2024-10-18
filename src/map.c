@@ -48,6 +48,7 @@ int	set_color(int *target, char *map)
 		}
 	}
 	*target = (rgb[0] << 16) + (rgb[1] << 8) + rgb[2];
+	ft_printf("color: %d\n", *target);
 	free(rgb);
 	return (0);
 }
