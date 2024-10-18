@@ -134,3 +134,29 @@ void	mlx_line_put(t_game *game, t_ray ray, double length, int color)
 			}
 	}
 }
+
+/*
+** 円の描画
+** game: ゲーム構造体
+** x, y: 中心座標
+** radius: 半径
+** color: 色
+*/
+void	draw_circle(t_game *game, int x, int y, int radius, int color)
+{
+	int		i;
+	int		j;
+
+	i = -radius;
+	while (i < radius)
+	{
+		j = -radius;
+		while (j < radius)
+		{
+			if (i * i + j * j < radius * radius)
+				mlx_pixel_put(game->mlx, game->win, x + i, y + j, color);
+			j++;
+		}
+		i++;
+	}
+}

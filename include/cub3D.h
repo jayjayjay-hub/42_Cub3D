@@ -88,6 +88,13 @@ typedef struct s_line
 	double	intercept;
 }	t_line;
 
+typedef struct line_segment
+{
+	t_vector	start;
+	t_vector	end;
+	t_line		line;
+}	t_line_segment;
+
 typedef struct s_player
 {
 	t_vector	pos;
@@ -149,6 +156,8 @@ t_vector	vector_init(double x, double y);
 /* ray.c (レイの計算) */
 
 t_ray		ray_init(t_vector pos, t_vector dir);
+t_line		ray_to_line(t_ray ray);
+t_line_segment	ray_to_segment(t_ray ray, double length);
 
 /* player.c (プレイヤーの計算) */
 
@@ -163,6 +172,8 @@ void	window_exit(t_game *game);
 void	draw_map(t_game *game);
 void	draw_square(t_game *game, int x, int y, int size, int color);
 void	mlx_line_put(t_game *game, t_ray ray, double length, int color);
+void	draw_circle(t_game *game, int x, int y, int radius, int color);
+
 
 /* line.c (直線の計算) */
 
@@ -170,5 +181,13 @@ t_line	line_from_points(t_vector vec1, t_vector vec2);
 double	line_calc_y(t_line line, double x);
 double	line_calc_x(t_line line, double y);
 
+/* segment.c (線分の計算) */
+
+t_line_segment	line_segment_init(t_vector start, t_vector end);
+t_vector	line_intersection(t_line_segment line1, t_line_segment line2);
+
+/* raycasting.c (レイキャスティング) */
+
+void	raycasting(t_game *game, t_player *player);
 
 #endif
