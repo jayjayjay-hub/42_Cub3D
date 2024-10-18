@@ -56,7 +56,7 @@ int	map_info_init(t_map **map_info, char *argv)
 {
 	argv = NULL;
 	// todo : mallocのサイズを変更する
-	(*map_info)->map = (char **)malloc(sizeof(char *) * (30));
+	(*map_info)->map = (char **)malloc(sizeof(char *) * 30);
 	if (!(*map_info)->map)
 		return (1);
 	(*map_info)->map[30] = NULL;
@@ -190,6 +190,23 @@ int	map_check(t_map *map_info)
 	return (0);
 }
 
+// char	**ft_realloc(char **ptr, size_t size)
+// {
+// 	char	**new_ptr;
+// 	int		i;
+
+// 	i = -1;
+// 	new_ptr = (char **)malloc(size);
+// 	if (!new_ptr)
+// 		return (NULL);
+// 	ft_printf("realloc\n");
+// 	new_ptr = ptr;
+// 	ft_printf("realloc\n");
+// 	// new_ptr[i] = NULL;
+// 	free(ptr);
+// 	return (new_ptr);
+// }
+
 int	map_scan(t_map *map_info, char *argv)
 {
 	int		y;
@@ -212,6 +229,7 @@ int	map_scan(t_map *map_info, char *argv)
 			free(line);
 			continue ;
 		}
+		// map_info->map = (char **)ft_realloc(map_info->map, sizeof(char *) * (y + 1));
 		map_info->map[y] = ft_strdup(line);
 		free(line);
 		y++;
