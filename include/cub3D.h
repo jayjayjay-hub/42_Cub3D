@@ -138,6 +138,7 @@ t_vector	vector_reflect(t_vector a, t_vector normal);
 t_vector	vector_project(t_vector a, t_vector b);
 t_vector	vector_rotate(t_vector a, double angle);
 t_vector	vector_from_angle(double angle);
+t_vector	vector_init(double x, double y);
 
 /* ray.c (レイの計算) */
 
