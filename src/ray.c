@@ -15,23 +15,3 @@ t_ray	ray_init(t_vector pos, t_vector dir)
 	ret.dir = dir;
 	return (ret);
 }
-
-/*
-** レイの始点
-** ray: レイ
-** ray.pos
-*/
-t_vector	ray_begin(t_ray ray)
-{
-	return (ray.pos);
-}
-
-/*
-** レイの終点
-** ray: レイ
-** ray.pos + ray.dir
-*/
-t_vector	ray_end(t_ray ray)
-{
-	return (vector_add(ray.pos, ray.dir));
-}

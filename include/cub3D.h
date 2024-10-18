@@ -71,6 +71,12 @@ typedef struct s_ray
 	t_vector	dir; // rayの方向ベクトル
 }	t_ray;
 
+typedef struct s_line
+{
+	double	inclination;
+	double	intercept;
+}	t_line;
+
 typedef struct s_player
 {
 	t_vector	pos;
@@ -131,13 +137,12 @@ t_vector	vector_from_angle(double angle);
 /* ray.c (レイの計算) */
 
 t_ray		ray_init(t_vector pos, t_vector dir);
-t_vector	ray_begin(t_ray ray);
-t_vector	ray_end(t_ray ray);
+void		draw_ray(t_game *game, t_ray ray, double length, int color);
 
 /* player.c (プレイヤーの計算) */
 
 t_player	player_init(double x, double y, double angle, double speed);
-void		drow_player(t_game *game, t_player *player);
+void		draw_player(t_game *game, t_player *player);
 int			key_hook(int keycode, t_game *game);
 
 /* window.c (ウィンドウの計算) */
@@ -146,5 +151,13 @@ void	window_init(t_game *game);
 void	window_exit(t_game *game);
 void	draw_map(t_game *game);
 void	draw_square(t_game *game, int x, int y, int size, int color);
+void	mlx_line_put(t_game *game, t_ray ray, double length, int color);
+
+/* line.c (直線の計算) */
+
+t_line	line_from_points(t_vector vec1, t_vector vec2);
+double	line_calc_y(t_line line, double x);
+double	line_calc_x(t_line line, double y);
+
 
 #endif

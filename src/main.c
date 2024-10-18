@@ -27,8 +27,8 @@ void	map_init(t_game *game)
 void	game_init(t_game *game)
 {
 	window_init(game);
-	game->player = player_init(50, 50, M_PI, 5);
-	drow_player(game, &game->player);
+	game->player = player_init(50, 50, M_PI_2, 5);
+	draw_player(game, &game->player);
 	draw_map(game);
 }
 
@@ -40,7 +40,7 @@ void	game_init(t_game *game)
 int	game_update(t_game *game)
 {
 	mlx_clear_window(game->mlx, game->win);
-	drow_player(game, &game->player);
+	draw_player(game, &game->player);
 	return (0);
 }
 

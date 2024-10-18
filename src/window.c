@@ -87,3 +87,50 @@ void	draw_square(t_game *game, int x, int y, int size, int color)
 		i++;
 	}
 }
+
+/*
+** 線分の描画
+** game: ゲーム構造体
+** t_ray: レイ構造体 (始点と方向)
+** length: 線分の長さ
+** color: 色
+*/
+void	mlx_line_put(t_game *game, t_ray ray, double length, int color)
+{
+	t_vector	end;
+	t_line		line;
+
+	end.x = ray.pos.x + ray.dir.x * length;
+	end.y = ray.pos.y + ray.dir.y * length;
+	line = line_from_points(ray.pos, end);
+	if (fabs(ray.dir.x) > fabs(ray.dir.y))
+	{
+		if (ray.dir.x > 0)
+			while (ray.pos.x < end.x)
+			{
+				mlx_pixel_put(game->mlx, game->win, ray.pos.x, line_calc_y(line, ray.pos.x), color);
+				ray.pos.x++;
+			}
+		else
+			while (ray.pos.x > end.x)
+			{
+				mlx_pixel_put(game->mlx, game->win, ray.pos.x, line_calc_y(line, ray.pos.x), color);
+				ray.pos.x--;
+			}
+	}
+	else
+	{
+		if (ray.dir.y > 0)
+			while (ray.pos.y < end.y)
+			{
+				mlx_pixel_put(game->mlx, game->win, line_calc_x(line, ray.pos.y), ray.pos.y, color);
+				ray.pos.y++;
+			}
+		else
+			while (ray.pos.y > end.y)
+			{
+				mlx_pixel_put(game->mlx, game->win, line_calc_x(line, ray.pos.y), ray.pos.y, color);
+				ray.pos.y--;
+			}
+	}
+}
