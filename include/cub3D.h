@@ -22,18 +22,6 @@
 #  define DOWN_ARROW 125
 #  define LEFT_ARROW 123
 #  define RIGHT_ARROW 124
-// max size for mac window
-#  define MAX_WIDTH 2560
-#  define MAX_HEIGHT 1400
-// max size for mac image (42x42) : 2560 / 42 = 60, 1400 / 42 = 33
-#  define MAX_WIDTH_IMAGE 60
-#  define MAX_HEIGHT_IMAGE 33
-// max size for mac image (42x42) : 60 * 33 = 1980
-#  define MAX_IMAGE 1980
-// max size for mac read :
-	//(MAX_WIDTH_IMAGE + 1) * MAX_HEIGHT_IMAGE = 61 * 33 = 2013
-#  define MAX_READ_SIZE 2013
-#  define READ_SIZE 2500
 #  define DESTROYNOTIFY 17
 // 1L << 17
 #  define STRUCTURENOTIFYMASK 131072
@@ -53,24 +41,110 @@
 #  define DOWN_ARROW 65364
 #  define LEFT_ARROW 65361
 #  define RIGHT_ARROW 65363
-// max size for linux window
-#  define MAX_WIDTH 1920
-#  define MAX_HEIGHT 1080
-// max size for linux image (42x42) : 1920 / 42 = 45, 1080 / 42 = 25
-#  define MAX_WIDTH_IMAGE 45
-#  define MAX_HEIGHT_IMAGE 25
-// max size for linux image (42x42) : 45 * 25 = 1125
-#  define MAX_IMAGE 1125
-// max size for linux read :
-	// (MAX_WIDTH_IMAGE + 1) * MAX_HEIGHT_IMAGE = 46 * 25 = 1150
-#  define MAX_READ_SIZE 1150
-#  define READ_SIZE 1500
 #  define DESTROYNOTIFY DestroyNotify
 #  define STRUCTURENOTIFYMASK StructureNotifyMask
 # endif
 
+# define TILE_SIZE 64
+# define BACKGROUND_SIZE 256
 
-// utils/windows.c
-int	close_window(void *mlx, void *win);
+# define M_PI 3.14159265358979323846
+# define M_PI_2 1.57079632679489661923
+
+# define WIN_WIDTH 640
+# define WIN_HEIGHT 480
+
+typedef struct s_vector
+{
+	double	x;
+	double	y;
+}	t_vector;
+
+typedef struct s_ray
+{
+	/*
+	** レイ (光線)
+	** レイの始点
+	** x, y: 始点の座標
+	*/
+	t_vector	pos; // rayの視点からの位置ベクトル
+	t_vector	dir; // rayの方向ベクトル
+}	t_ray;
+
+typedef struct s_player
+{
+	t_vector	pos;
+	t_vector	dir;
+	double		angle; // radian
+	double		speed;
+}	t_player;
+
+typedef struct s_texture
+{
+	void	*img;
+	int		*data;
+	int		width;
+	int		height;
+}	t_texture;
+
+typedef struct s_map
+{
+	int		width;
+	int		height;
+	char	**data;
+}	t_map;
+
+typedef struct s_game
+{
+	void		*mlx;
+	void		*win;
+	t_player	player;
+	t_texture	north;
+	t_texture	south;
+	t_texture	west;
+	t_texture	east;
+	t_texture	ceiling;
+	t_texture	floor;
+	t_map		map;
+}	t_game;
+
+/* main.c (メイン関数) */
+
+int			game_update(t_game *game);
+
+/* vector.c (ベクトルの計算) */
+
+t_vector	vector_add(t_vector a, t_vector b);
+t_vector	vector_sub(t_vector a, t_vector b);
+t_vector	vector_mul(t_vector a, double b);
+t_vector	vector_div(t_vector a, double b);
+t_vector	vector_normalize(t_vector a);
+double		vector_len(t_vector a);
+double		vector_dot(t_vector a, t_vector b);
+double		vector_cross(t_vector a, t_vector b);
+t_vector	vector_from_to(t_vector from, t_vector to);
+t_vector	vector_reflect(t_vector a, t_vector normal);
+t_vector	vector_project(t_vector a, t_vector b);
+t_vector	vector_rotate(t_vector a, double angle);
+t_vector	vector_from_angle(double angle);
+
+/* ray.c (レイの計算) */
+
+t_ray		ray_init(t_vector pos, t_vector dir);
+t_vector	ray_begin(t_ray ray);
+t_vector	ray_end(t_ray ray);
+
+/* player.c (プレイヤーの計算) */
+
+t_player	player_init(double x, double y, double angle, double speed);
+void		drow_player(t_game *game, t_player *player);
+int			key_hook(int keycode, t_game *game);
+
+/* window.c (ウィンドウの計算) */
+
+void	window_init(t_game *game);
+void	window_exit(t_game *game);
+void	draw_map(t_game *game);
+void	draw_square(t_game *game, int x, int y, int size, int color);
 
 #endif

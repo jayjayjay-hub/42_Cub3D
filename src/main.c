@@ -1,104 +1,72 @@
 #include "cub3D.h"
 
-typedef struct s_player
+// main.c
+
+void	map_init(t_game *game)
 {
-	double	x;
-	double	y;
-	double	angle;
-	double	speed;
-	void	*mlx;
-	void	*win;
-}	t_player;
-
-#define M_PI_2 1.57079632679489661923
-#define M_PI 3.14159265358979323846
-
-// プレイヤーを描画する関数 (5 * 5 の正方形 + 視野90度の線)
-void	drow_player(void *mlx, void *win, t_player *player)
-{
-	// まず画面をクリア
-	mlx_clear_window(mlx, win);
-	int	x;
-	int	y;
-
-	y = -2;
-	while (++y < 3)
-	{
-		x = -2;
-		while (++x < 3)
-			mlx_pixel_put(mlx, win, player->x + x - 1, player->y + y - 1, 0x00FF0000);
-	}
-	x = 0;
-	// angle から 45度ずつ左右に線を引く
-	while (x < 45)
-	{
-		mlx_pixel_put(mlx, win, player->x + cos(player->angle + x * M_PI / 180) * 100, player->y + sin(player->angle + x * M_PI / 180) * 100, 0x00FF0000);
-		mlx_pixel_put(mlx, win, player->x + cos(player->angle - x * M_PI / 180) * 100, player->y + sin(player->angle - x * M_PI / 180) * 100, 0x00FF0000);
-		x++;
-	}
+	game->map.data = ft_split("1111111111111111111111111\n"
+					"1000000000110000000000001\n"
+					"1011000001110000002000001\n"
+					"1001000000000000000000001\n"
+					"1111111110110000011111111\n"
+					"1000000000110000010000001\n"
+					"1011101000000000010000001\n"
+					"1011101111111111110000001\n"
+					"1000000000000000010000001\n"
+					"1111111111111111111111111", '\n');
+	game->map.width = 25;
+	game->map.height = 10;
 }
 
-// プレイヤーを動かす関数
-int	key_hook(int keycode, t_player *player)
+/*
+** ゲームの初期化
+** mlxの初期化
+** ウィンドウの作成
+** プレイヤーの初期化
+*/
+void	game_init(t_game *game)
 {
-	if (keycode == ESC)
-	{
-		close_window(player->mlx, player->win);
-	}
-	if (keycode == UP)
-	{
-		player->x += cos(player->angle) * player->speed;
-		player->y += sin(player->angle) * player->speed;
-	}
-	if (keycode == DOWN)
-	{
-		player->x -= cos(player->angle) * player->speed;
-		player->y -= sin(player->angle) * player->speed;
-	}
-	if (keycode == LEFT)
-	{
-		player->x += cos(player->angle - M_PI_2) * player->speed;
-		player->y += sin(player->angle - M_PI_2) * player->speed;
-	}
-	if (keycode == RIGHT)
-	{
-		player->x += cos(player->angle + M_PI_2) * player->speed;
-		player->y += sin(player->angle + M_PI_2) * player->speed;
-	}
-	if (keycode == UP_ARROW)
-		player->angle += 0.1;
-	if (keycode == DOWN_ARROW)
-		player->angle -= 0.1;
-	if (keycode == LEFT_ARROW)
-		player->angle -= 0.1;
-	if (keycode == RIGHT_ARROW)
-		player->angle += 0.1;
-	drow_player(player->mlx, player->win, player);
+	window_init(game);
+	game->player = player_init(50, 50, M_PI, 5);
+	drow_player(game, &game->player);
+	draw_map(game);
+}
+
+/*
+** ゲームの更新
+** プレイヤーの移動
+** プレイヤーの描画
+*/
+int	game_update(t_game *game)
+{
+	mlx_clear_window(game->mlx, game->win);
+	drow_player(game, &game->player);
 	return (0);
 }
 
-void	init_player(t_player *player, void *mlx, void *win)
+/*
+** ゲームのループ
+** イベントの受け取り
+** 描画
+*/
+void	game_loop(t_game *game)
 {
-	player->x = 400;
-	player->y = 400;
-	player->angle = M_PI_2 * 3;
-	player->speed = 10;
-	player->mlx = mlx;
-	player->win = win;
+	mlx_hook(game->win, 2, 1L << 0, key_hook, game);
+	mlx_loop(game->mlx);
 }
 
+/*
+** メイン関数
+** マップの読み込み
+** ゲームの初期化
+** ゲームのループ
+*/
 int	main(void)
 {
-	void	*mlx;
-	void	*win;
-	t_player	player;
+	t_game	game;
 
-	mlx = mlx_init();
-	win = mlx_new_window(mlx, 800, 800, "Hello world!");
-	init_player(&player, mlx, win);
-	drow_player(mlx, win, &player);
-	mlx_hook(win, DESTROYNOTIFY, STRUCTURENOTIFYMASK, close_window, mlx);
-	mlx_hook(win, 2, 1L << 0, key_hook, &player);
-	mlx_loop(mlx);
+	map_init(&game);
+	game_init(&game);
+	game_loop(&game);
 	return (0);
 }

@@ -12,7 +12,6 @@ OBJ_DIR			= .obj/
 LIBFT_DIR		= libft/
 LIBFT_NAME		= libft.a
 MLX_DIR			= mlx/
-MXL_NAME		= libmlx.a
 # MacOSの場合
 ifeq ($(shell uname), Darwin)
 	MLX_NAME	= libmlx.a
