@@ -32,6 +32,7 @@ void	draw_player(t_game *game, t_player *player)
 {
 	int			x;
 	t_vector	dir;
+	double		angle_step;
 
 	// プレイヤーの描画
 	x = -5;
@@ -42,21 +43,17 @@ void	draw_player(t_game *game, t_player *player)
 		x++;
 	}
 	// // プレイヤーが向いている方向に50の線を引く
-	mlx_line_put(game, ray_init(player->pos, player->dir), 50, 0x00FF0000);
-	// プレイヤーの視界
-	x = 0;
-	while (x < 60)
+	mlx_line_put(game, ray_init(player->pos, player->dir), 80, 0x00FF0000);
+	// プレイヤーの向いている方向の左右1度ずつに線を引く (視野角60度)
+	x = 1;
+	angle_step = (M_PI / 3) / 20; // 60度（π/4）を20分割
+	while (x <= 20)
 	{
-		dir = vector_rotate(player->dir, x * M_PI / 180);
-		mlx_pixel_put(game->mlx, game->win, player->pos.x + dir.x * 100, player->pos.y + dir.y * 100, 0x00FF0000);
+		dir = vector_rotate(player->dir, x * angle_step);
+		mlx_line_put(game, ray_init(player->pos, dir), 80, 0x00FF0000);
+		dir = vector_rotate(player->dir, -x * angle_step);
+		mlx_line_put(game, ray_init(player->pos, dir), 80, 0x00FF0000);
 		x++;
-	}
-	x = 0;
-	while (x > -60)
-	{
-		dir = vector_rotate(player->dir, x * M_PI / 180);
-		mlx_pixel_put(game->mlx, game->win, player->pos.x + dir.x * 100, player->pos.y + dir.y * 100, 0x00FF0000);
-		x--;
 	}
 }
 
@@ -99,9 +96,9 @@ int	key_hook(int keycode, t_game *game)
 		player->pos.y += player->dir.x * player->speed;
 	}
 	if (keycode == RIGHT_ARROW)
-		player->dir = vector_rotate(player->dir, 0.1);
+		player->dir = vector_rotate(player->dir, 0.09);
 	if (keycode == LEFT_ARROW)
-		player->dir = vector_rotate(player->dir, -0.1);
+		player->dir = vector_rotate(player->dir, -0.09);
 	game_update(game);
 	return (0);
 }

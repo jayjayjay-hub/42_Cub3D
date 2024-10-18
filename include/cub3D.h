@@ -54,6 +54,11 @@
 # define WIN_WIDTH 640
 # define WIN_HEIGHT 480
 
+# define NORTH (3 * M_PI / 2)
+# define SOUTH (M_PI / 2)
+# define WEST M_PI
+# define EAST 0
+
 typedef struct s_vector
 {
 	double	x;
@@ -137,7 +142,6 @@ t_vector	vector_from_angle(double angle);
 /* ray.c (レイの計算) */
 
 t_ray		ray_init(t_vector pos, t_vector dir);
-void		draw_ray(t_game *game, t_ray ray, double length, int color);
 
 /* player.c (プレイヤーの計算) */
 
