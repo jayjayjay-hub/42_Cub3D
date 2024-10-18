@@ -2,7 +2,7 @@
 
 // raycasting.c
 
-void	check_wall(t_game *game, t_line_segment ray)
+void	check_wall(t_game *game, t_line_segment ray, int num)
 {
 	t_line_segment	segment_1;
 	t_line_segment	segment_2;
@@ -14,7 +14,10 @@ void	check_wall(t_game *game, t_line_segment ray)
 	segment_3 = line_segment_init(vector_init(300, 0), vector_init(0, 300));
 	intersection = line_intersection(ray, segment_1);
 	if (intersection.x != -1 && intersection.y != -1)
+	{
 		draw_circle(game, intersection.x, intersection.y, 3, MWHITE);
+		draw_wall(game, num);
+	}
 	intersection = line_intersection(ray, segment_2);
 	if (intersection.x != -1 && intersection.y != -1)
 		draw_circle(game, intersection.x, intersection.y, 3, MWHITE);
@@ -39,15 +42,31 @@ void	raycasting(t_game *game, t_player *player)
 	x = 1;
 	angle_step = (M_PI / 3) / 20; // 60度（π/3）を20分割
 	ray = ray_to_segment(ray_init(player->pos, player->dir), 150);
-	check_wall(game, ray);
+	check_wall(game, ray, 0);
 	while (x <= 20)
 	{
 		dir = vector_rotate(player->dir, x * angle_step);
 		ray = ray_to_segment(ray_init(player->pos, dir), 150);
-		check_wall(game, ray);
+		check_wall(game, ray, x);
 		dir = vector_rotate(player->dir, -x * angle_step);
 		ray = ray_to_segment(ray_init(player->pos, dir), 150);
-		check_wall(game, ray);
+		check_wall(game, ray, x * -1);
 		x++;
 	}
+}
+
+/*
+** 壁を描画する関数
+** game: ゲーム構造体
+** num: レイの番号
+*/
+void	draw_wall(t_game *game, int num)
+{
+	t_vector	start;
+	t_vector	size;
+
+	start = vector_init(1000, 300);
+	size = vector_init(10, 300);
+	start.x += num * 20;
+	draw_rect(game, start, size, MBLUE);
 }

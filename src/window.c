@@ -160,3 +160,28 @@ void	draw_circle(t_game *game, int x, int y, int radius, int color)
 		i++;
 	}
 }
+
+/*
+** 長方形の描画（塗りつぶし）
+** game: ゲーム構造体
+** pos: 長方形の真ん中の座標
+** size: 長方形の大きさ (t_vector.x: 幅, t_vector.y: 高さ)
+** color: 色
+*/
+void	draw_rect(t_game *game, t_vector pos, t_vector size, int color)
+{
+	int		i;
+	int		j;
+
+	i = -size.x / 2;
+	while (i < size.x / 2)
+	{
+		j = -size.y / 2;
+		while (j < size.y / 2)
+		{
+			mlx_pixel_put(game->mlx, game->win, pos.x + i, pos.y + j, color);
+			j++;
+		}
+		i++;
+	}
+}

@@ -51,8 +51,8 @@
 # define M_PI 3.14159265358979323846
 # define M_PI_2 1.57079632679489661923
 
-# define WIN_WIDTH 640
-# define WIN_HEIGHT 480
+# define WIN_WIDTH 2048
+# define WIN_HEIGHT 1024
 
 # define NORTH (3 * M_PI / 2)
 # define SOUTH (M_PI / 2)
@@ -173,6 +173,7 @@ void	draw_map(t_game *game);
 void	draw_square(t_game *game, int x, int y, int size, int color);
 void	mlx_line_put(t_game *game, t_ray ray, double length, int color);
 void	draw_circle(t_game *game, int x, int y, int radius, int color);
+void	draw_rect(t_game *game, t_vector pos, t_vector size, int color);
 
 
 /* line.c (直線の計算) */
@@ -189,5 +190,6 @@ t_vector	line_intersection(t_line_segment line1, t_line_segment line2);
 /* raycasting.c (レイキャスティング) */
 
 void	raycasting(t_game *game, t_player *player);
+void	draw_wall(t_game *game, int num);
 
 #endif
