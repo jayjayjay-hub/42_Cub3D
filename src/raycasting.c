@@ -16,7 +16,7 @@ void	check_wall(t_game *game, t_line_segment ray, int num)
 	if (intersection.x != -1 && intersection.y != -1)
 	{
 		draw_circle(game, intersection.x, intersection.y, 3, MWHITE);
-		draw_wall(game, num);
+		draw_wall(game, num, vector_len(vector_from_to(ray.start, intersection)));
 	}
 	intersection = line_intersection(ray, segment_2);
 	if (intersection.x != -1 && intersection.y != -1)
@@ -59,14 +59,18 @@ void	raycasting(t_game *game, t_player *player)
 ** 壁を描画する関数
 ** game: ゲーム構造体
 ** num: レイの番号
+** distance: 壁までの距離
 */
-void	draw_wall(t_game *game, int num)
+void	draw_wall(t_game *game, int num, double distance)
 {
 	t_vector	start;
 	t_vector	size;
+	double		rate;
 
+	printf("distance: %f\n", distance);
+	rate = 300 / (distance * 0.005);
 	start = vector_init(1000, 300);
-	size = vector_init(10, 300);
+	size = vector_init(10, rate);
 	start.x += num * 20;
 	draw_rect(game, start, size, MBLUE);
 }
