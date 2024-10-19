@@ -6,7 +6,7 @@
 /*   By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 19:09:37 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/10/18 17:13:06 by kosnakam         ###   ########.fr       */
+/*   Updated: 2024/10/19 16:23:08 by kosnakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,11 @@ void	put_map(t_mlx mlx)
         for (x = 0; x < MAPWIDTH; x++)
         {
             // ピクセルを img_data に設定
-            *(int *)(mlx.img->data + (y * mlx.img->size_line + x * (mlx.img->bpp / 8))) = mlx.map_info->f;
+			// if (mlx.map_info->map[y] && mlx.map_info->map[y][x] && mlx.map_info->map[y][x] == '1')
+			// {
+			// 	for (int i = 0; i < PIXELSIZE; i++)
+            		*(int *)(mlx.img->data + (y * mlx.img->size_line + x * (mlx.img->bpp / 8))) = mlx.map_info->f;
+			// }
         }
     }
     // 画像をウィンドウに表示
@@ -146,6 +150,9 @@ void	ft_free(t_map *map_info)
 	while (map_info->map[++i])
 		free(map_info->map[i]);
 	free(map_info->map);
+	i = -1;
+	while (map_info->map_tmp[++i])
+		free(map_info->map_tmp[i]);
 }
 
 int	main(int argc, char **argv)

@@ -48,7 +48,6 @@ int	set_color(int *target, char *map)
 		}
 	}
 	*target = (rgb[0] << 16) + (rgb[1] << 8) + rgb[2];
-	ft_printf("color: %d\n", *target);
 	free(rgb);
 	return (0);
 }
@@ -58,7 +57,8 @@ int	map_info_init(t_map **map_info, char *argv)
 	argv = NULL;
 	// todo : mallocのサイズを変更する
 	(*map_info)->map = (char **)malloc(sizeof(char *) * 30);
-	if (!(*map_info)->map)
+	(*map_info)->map_tmp = (char **)malloc(sizeof(char *) * 30);
+	if (!(*map_info)->map || !(*map_info)->map_tmp)
 		return (1);
 	(*map_info)->map[30] = NULL;
 	(*map_info)->no = NULL;
@@ -91,7 +91,7 @@ void	wall_check(char **map, int y, int x, unsigned int *i, int *flag)
 		*flag = 1;
 		return ;
 	}
-	if (map[y][x] == '1')
+	if (!map[y] || !map[y][x] || map[y][x] == '1')
 		return ;
 	else
 	{
@@ -152,7 +152,7 @@ int	map_spell_check(t_map *map_info, char **map)
 	while (map[++y])
 	{
 		x = -1;
-		while (map[y][++x])
+		while (map[y] && map[y][++x])
 		{
 			if (spell_check(map[y][x], 1))
 			{
@@ -185,7 +185,7 @@ int	map_check(t_map *map_info)
 		return (1);
 	if (map_spell_check(map_info, map_info->map))
 		return (1);
-	wall_check(map_info->map, map_info->p_y, map_info->p_x, &i, &flag);
+	wall_check(map_info->map_tmp, map_info->p_y, map_info->p_x, &i, &flag);
 	if (flag)
 		return (1);
 	return (0);
@@ -214,12 +214,10 @@ int	map_scan(t_map *map_info, char *argv)
 	int		fd;
 	char	*line;
 
-	y = 1;
+	y = 0;
 	fd = open(argv, O_RDONLY);
 	if (fd == -1 || map_info_init(&map_info, argv))
 		return (1);
-	// 一番上の壁が空いているときセグフォになるからその対策
-	map_info->map[0] = ft_strdup("\n");
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -232,11 +230,12 @@ int	map_scan(t_map *map_info, char *argv)
 		}
 		// map_info->map = (char **)ft_realloc(map_info->map, sizeof(char *) * (y + 1));
 		map_info->map[y] = ft_strdup(line);
+		map_info->map_tmp[y] = ft_strdup(line);
 		free(line);
 		y++;
 	}
-	// 一番下の壁が開いてるときセグフォになるからその対策
-	map_info->map[y] = ft_strdup("\n");
+	map_info->map[y] = NULL;
+	map_info->map_tmp[y] = NULL;
 	close(fd);
 	return (map_check(map_info));
 }
