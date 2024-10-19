@@ -10,8 +10,7 @@ int	check_map_spell(char **argv)
 
 int	set_path(char **target, char *map)
 {
-	while (*map == 32 || (*map >= 9 && *map <= 13))
-		map++;
+	pass_space(map);
 	*target = ft_strdup(map);
 	return (0);
 }
