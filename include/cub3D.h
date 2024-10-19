@@ -45,52 +45,6 @@
 #  define STRUCTURENOTIFYMASK StructureNotifyMask
 # endif
 
-/* kosnakam */
-
-typedef struct s_mlx
-{
-	void	*mlx;
-	void	*win;
-	int		up;
-	int		down;
-	int		left;
-	int		right;
-	int		x;
-	int		y;
-	struct s_map	*map_info;
-	struct s_img	*img;
-}	t_mlx;
-
-typedef struct s_map
-{
-	char	*no;
-	char	*so;
-	char	*we;
-	char	*ea;
-	int		f;
-	int		c;
-	int		p_x;
-	int		p_y;
-	char	**map;
-	char	**map_tmp;
-}	t_map;
-
-typedef struct s_img
-{
-	struct s_mlx	*mlx;
-	char	*data;
-	void	*img;
-	char	*xpm_data;
-	void	*xpm_img;
-	char	*relative_path;
-	int		img_width;
-	int		img_height;
-	int		bpp;
-	int		size_line;
-	int		endian;
-}	t_img;
-
-
 # define TILE_SIZE 64
 # define BACKGROUND_SIZE 256
 
@@ -116,6 +70,35 @@ typedef struct s_img
 # define MWHITE 0x00FFFFFF
 # define MBLACK 0x00000000
 
+typedef struct s_map
+{
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
+	int		f;
+	int		c;
+	int		p_x;
+	int		p_y;
+	char	**map;
+	char	**map_tmp;
+}	t_map;
+
+typedef struct s_img
+{
+	struct s_game	*game;
+	char	*data;
+	void	*img;
+	char	*xpm_data;
+	void	*xpm_img;
+	char	*relative_path;
+	int		img_width;
+	int		img_height;
+	int		bpp;
+	int		size_line;
+	int		endian;
+}	t_img;
+
 typedef struct s_vector
 {
 	double	x;
@@ -124,13 +107,8 @@ typedef struct s_vector
 
 typedef struct s_ray
 {
-	/*
-	** レイ (光線)
-	** レイの始点
-	** x, y: 始点の座標
-	*/
-	t_vector	pos; // rayの視点からの位置ベクトル
-	t_vector	dir; // rayの方向ベクトル
+	t_vector	pos;
+	t_vector	dir;
 }	t_ray;
 
 typedef struct s_line
@@ -173,7 +151,8 @@ typedef struct s_game
 	t_texture	east;
 	t_texture	ceiling;
 	t_texture	floor;
-	t_map		map;
+	t_map		*map_info;
+	t_img		*img;
 }	t_game;
 
 /* main.c (メイン関数) */
