@@ -47,13 +47,6 @@
 
 /* kosnakam */
 
-# define WINWIDTH 1280
-# define WINHEIGHT 832
-# define MAPWIDTH 320
-# define MAPHEIGHT 160
-# define PIXELSIZE 64
-# define CHARSPEED 50
-
 typedef struct s_mlx
 {
 	void	*mlx;
@@ -96,10 +89,6 @@ typedef struct s_img
 	int		size_line;
 	int		endian;
 }	t_img;
-
-// map.c
-int	check_map_spell(char **argv);
-int	map_scan(t_map *map_info, char *argv);
 
 
 # define TILE_SIZE 64
@@ -190,6 +179,11 @@ typedef struct s_game
 /* main.c (メイン関数) */
 
 int				game_update(t_game *game);
+
+/* map.c (マップの計算) */
+
+int	check_map_spell(char **argv);
+int	map_scan(t_map *map_info, char *argv);
 
 /* vector.c (ベクトルの計算) */
 
