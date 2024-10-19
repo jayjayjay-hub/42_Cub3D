@@ -18,6 +18,10 @@ void	game_init(t_game *game)
 {
 	window_init(game);
 	game->player = player_init(200, 250, NORTH, 5);
+	// mapの表示
+	printf("map\n");
+	for (int i = 0; game->map_info->map[i]; i++)
+		printf("%s", game->map_info->map[i]);
 	// 疑似的な壁
 	mlx_line_put(game, ray_init(vector_init(300, 0), vector_init(0, 1)), 300, MGREEN);
 	mlx_line_put(game, ray_init(vector_init(0, 300), vector_init(1, 0)), 300, MGREEN);
@@ -59,6 +63,8 @@ int	main(int argc, char **argv)
 	t_game	game;
 
 	if (argc != 2 || check_map(argv))
+		exit(0);
+	if (map_scan(game.map_info, argv[1]))
 		exit(0);
 	game_init(&game);
 	game_loop(&game);
