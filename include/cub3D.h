@@ -45,6 +45,63 @@
 #  define STRUCTURENOTIFYMASK StructureNotifyMask
 # endif
 
+/* kosnakam */
+
+# define WINWIDTH 1280
+# define WINHEIGHT 832
+# define MAPWIDTH 320
+# define MAPHEIGHT 160
+# define PIXELSIZE 64
+# define CHARSPEED 50
+
+typedef struct s_mlx
+{
+	void	*mlx;
+	void	*win;
+	int		up;
+	int		down;
+	int		left;
+	int		right;
+	int		x;
+	int		y;
+	struct s_map	*map_info;
+	struct s_img	*img;
+}	t_mlx;
+
+typedef struct s_map
+{
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
+	int		f;
+	int		c;
+	int		p_x;
+	int		p_y;
+	char	**map;
+	char	**map_tmp;
+}	t_map;
+
+typedef struct s_img
+{
+	struct s_mlx	*mlx;
+	char	*data;
+	void	*img;
+	char	*xpm_data;
+	void	*xpm_img;
+	char	*relative_path;
+	int		img_width;
+	int		img_height;
+	int		bpp;
+	int		size_line;
+	int		endian;
+}	t_img;
+
+// map.c
+int	check_map_spell(char **argv);
+int	map_scan(t_map *map_info, char *argv);
+
+
 # define TILE_SIZE 64
 # define BACKGROUND_SIZE 256
 
@@ -116,13 +173,6 @@ typedef struct s_texture
 	int		height;
 }	t_texture;
 
-typedef struct s_map
-{
-	int		width;
-	int		height;
-	char	**data;
-}	t_map;
-
 typedef struct s_game
 {
 	void		*mlx;
@@ -193,5 +243,4 @@ t_vector		line_intersection(t_line_segment line1, t_line_segment line2);
 
 void			raycasting(t_game *game, t_player *player);
 void			draw_wall(t_game *game, int num, double angle, double distance);
-
 #endif

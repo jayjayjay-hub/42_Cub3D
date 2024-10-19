@@ -1,6 +1,44 @@
 #include "cub3D.h"
 
-// main.c
+int put_color(t_mlx *mlx)
+{
+	if (mlx->up == 1)
+		mlx_pixel_put(mlx->mlx, mlx->win, mlx->x / 100, mlx->y-- / 100, 0x00FF0000);
+	if (mlx->down == 1)
+		mlx_pixel_put(mlx->mlx, mlx->win, mlx->x / 100, mlx->y++ / 100, 0x00FF0000);
+	if (mlx->right == 1)
+		mlx_pixel_put(mlx->mlx, mlx->win, mlx->x++ / 100, mlx->y / 100, 0x00FF0000);
+	if (mlx->left == 1)
+		mlx_pixel_put(mlx->mlx, mlx->win, mlx->x-- / 100, mlx->y / 100, 0x00FF0000);
+	return (0);
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	size_t			index;
+	unsigned char	c1;
+	unsigned char	c2;
+
+	index = 0;
+	while (s1[index] || s2[index])
+	{
+		c1 = (unsigned char)s1[index];
+		c2 = (unsigned char)s2[index];
+		if (c1 != c2)
+			return (c1 - c2);
+		index++;
+	}
+	return (0);
+}
+
+int check_map(char **argv)
+{
+	if (ft_strrchr(argv[1], '.') == 0
+		|| ft_strcmp(ft_strrchr(argv[1], '.'), ".cub") != 0)
+		return (1);
+	
+	return (0);
+}
 
 /*
 ** ゲームの初期化
@@ -21,6 +59,17 @@ void	game_init(t_game *game)
 }
 
 /*
+** ゲームのループ
+** イベントの受け取り
+** 描画
+*/
+void	game_loop(t_game *game)
+{
+	mlx_hook(game->win, 2, 1L << 0, key_hook, game);
+	mlx_loop(game->mlx);
+}
+
+/*
 ** ゲームの更新
 ** プレイヤーの移動
 ** プレイヤーの描画
@@ -37,28 +86,18 @@ int	game_update(t_game *game)
 	return (0);
 }
 
-/*
-** ゲームのループ
-** イベントの受け取り
-** 描画
-*/
-void	game_loop(t_game *game)
+int	main(int argc, char **argv)
 {
-	mlx_hook(game->win, 2, 1L << 0, key_hook, game);
-	mlx_loop(game->mlx);
-}
-
-/*
-** メイン関数
-** マップの読み込み
-** ゲームの初期化
-** ゲームのループ
-*/
-int	main(void)
-{
+	t_mlx	mlx;
 	t_game	game;
 
+	mlx.x = 0;
+	mlx.y = 0;
+	(void)mlx;
+	if (argc != 2 || check_map(argv))
+		exit(0);
 	game_init(&game);
 	game_loop(&game);
+	return (0);
 	return (0);
 }
