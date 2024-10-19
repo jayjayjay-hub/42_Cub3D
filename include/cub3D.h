@@ -6,7 +6,7 @@
 /*   By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 19:10:51 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/10/19 15:18:16 by kosnakam         ###   ########.fr       */
+/*   Updated: 2024/10/19 16:46:52 by kosnakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ typedef struct s_img
 	struct s_mlx	*mlx;
 	char	*data;
 	void	*img;
+	char	*xpm_data;
+	void	*xpm_img;
 	char	*relative_path;
 	int		img_width;
 	int		img_height;

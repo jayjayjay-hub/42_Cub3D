@@ -6,7 +6,7 @@
 /*   By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 19:09:37 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/10/19 16:23:08 by kosnakam         ###   ########.fr       */
+/*   Updated: 2024/10/19 18:35:46 by kosnakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,30 @@ int	close_window(t_mlx *mlx)
 
 void	put_pixel(t_img img, int x, int y, char pixel)
 {
+	// int	offset_x = x;
+	// int	offset_y = y;
+	x = 0, y = 0;
 	if (pixel == '0')
 		img.relative_path = "./img/0.xpm";
 	else if (pixel == '1')
 		img.relative_path = "./img/1.xpm";
 	else if (pixel == 'p')
-		img.relative_path = "./img/p.xpm";
-	img.img = mlx_xpm_file_to_image(img.mlx->mlx,
+		img.relative_path = "./img/eagle.xpm";
+	img.xpm_img = mlx_xpm_file_to_image(img.mlx->mlx,
 			img.relative_path, &img.img_width, &img.img_height);
-	mlx_put_image_to_window(img.mlx->mlx, img.mlx->win, img.img, x, y);
+	img.xpm_data = mlx_get_data_addr(img.img, &img.bpp, &img.size_line, &img.endian);
+	// for (y = 0; y < PIXELSIZE; y++)
+	// {
+	// 	for (x = 0; x < PIXELSIZE; x++)
+	// 	{
+	// 		unsigned int color = *(int *)(img.xpm_img + (y * img.size_line + x * (img.bpp / 8)));
+	// 		if (color != 0xFF000000)  // 透明色を無視（XPMの透明色が黒ならここで判定）
+	// 		{
+	// 			*(int *)(img.data + ((y + offset_y) * img.size_line + (x + offset_x) * (img.bpp / 8))) = color;
+	// 		}
+	// 	}
+    // }
+	// mlx_put_image_to_window(img.mlx->mlx, img.mlx->win, img.img, x, y);
 }
 
 void	put_map(t_mlx mlx)
@@ -77,42 +92,37 @@ void	put_map(t_mlx mlx)
         }
     }
     // 画像をウィンドウに表示
-    mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img->img, 0, 0);
+    // mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img->img, 0, 0);
 }
 
 int routine(t_mlx *mlx)
 {
-	t_img	img;
-
-	img.mlx = mlx;
 	if (mlx->up == 1)
 	{
 		// map_refresh(*mlx, mlx->x, mlx->y);
 		put_map(*mlx);
-		mlx_pixel_put(mlx->mlx, mlx->win, mlx->x, mlx->y--, 0);
+		put_pixel(*(mlx->img), mlx->x , mlx->y , 'p');
 		// put_pixel(img, mlx->x / CHARSPEED, mlx->y-- / CHARSPEED, 'p');
 	}
 	if (mlx->down == 1)
 	{
 		// map_refresh(*mlx, mlx->x, mlx->y);
 		put_map(*mlx);
-		mlx_pixel_put(mlx->mlx, mlx->win, mlx->x, mlx->y++, 0);
 		// put_pixel(img, mlx->x / CHARSPEED, mlx->y++ / CHARSPEED, 'p');
 	}
 	if (mlx->left == 1)
 	{
 		// map_refresh(*mlx, mlx->x, mlx->y);
 		put_map(*mlx);
-		mlx_pixel_put(mlx->mlx, mlx->win, mlx->x--, mlx->y, 0);
 		// put_pixel(img, mlx->x-- / CHARSPEED, mlx->y / CHARSPEED, 'p');
 	}
 	if (mlx->right == 1)
 	{
 		// map_refresh(*mlx, mlx->x, mlx->y);
 		put_map(*mlx);
-		mlx_pixel_put(mlx->mlx, mlx->win, mlx->x++, mlx->y, 0);
 		// put_pixel(img, mlx->x++ / CHARSPEED, mlx->y / CHARSPEED, 'p');
 	}
+    mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->img, 0, 0);
 	return (0);
 }
 
