@@ -56,8 +56,13 @@
 # define NUM_RAYS 20
 # define VIEW_DISTANCE 150
 
+# define PLAYER_SPEED 5
+
 # define WIN_WIDTH 2048
 # define WIN_HEIGHT 1024
+
+# define MINIMAP_RECT_SIZE 50
+# define MINIMAP_RECT_SIZE_HALF MINIMAP_RECT_SIZE / 2
 
 # define NORTH 3 * M_PI / 2
 # define SOUTH M_PI / 2
@@ -189,7 +194,7 @@ t_line_segment	ray_to_segment(t_ray ray, double length);
 
 /* player.c (プレイヤーの計算) */
 
-t_player		player_init(double x, double y, double angle, double speed);
+t_player		player_init(t_vector pos, char angle, double speed);
 void			draw_player(t_game *game, t_player *player);
 int				key_hook(int keycode, t_game *game);
 
@@ -219,6 +224,8 @@ void			draw_wall(t_game *game, int num, double angle, double distance);
 
 /* small_map.c (ミニマップの表示) */
 
+void			init_minimap(t_game *game);
 void			put_minimap(t_game *game);
+void			minimap(t_game *game);
 
 #endif

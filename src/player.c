@@ -8,13 +8,19 @@
 ** angle: プレイヤーの初期角度
 ** speed: プレイヤーの移動速度
 */
-t_player	player_init(double x, double y, double angle, double speed)
+t_player	player_init(t_vector pos, char angle, double speed)
 {
 	t_player	ret;
 
-	ret.pos.x = x;
-	ret.pos.y = y;
-	ret.dir = vector_from_angle(angle);
+	ret.pos = pos;
+	if (angle == 'N')
+		ret.dir = vector_init(0, -1);
+	else if (angle == 'S')
+		ret.dir = vector_init(0, 1);
+	else if (angle == 'W')
+		ret.dir = vector_init(-1, 0);
+	else if (angle == 'E')
+		ret.dir = vector_init(1, 0);
 	ret.angle = angle;
 	ret.speed = speed;
 	return (ret);
@@ -68,34 +74,47 @@ void	draw_player(t_game *game, t_player *player)
 int	key_hook(int keycode, t_game *game)
 {
 	t_player	*player;
+	bool		update_flag;
 
 	player = &game->player;
 	if (keycode == ESC)
 		window_exit(game);
+	update_flag = false;
 	if (keycode == UP)
 	{
 		player->pos.x += player->dir.x * player->speed;
 		player->pos.y += player->dir.y * player->speed;
+		update_flag = true;
 	}
 	if (keycode == DOWN)
 	{
 		player->pos.x -= player->dir.x * player->speed;
 		player->pos.y -= player->dir.y * player->speed;
+		update_flag = true;
 	}
 	if (keycode == LEFT)
 	{
 		player->pos.x += player->dir.y * player->speed;
 		player->pos.y -= player->dir.x * player->speed;
+		update_flag = true;
 	}
 	if (keycode == RIGHT)
 	{
 		player->pos.x -= player->dir.y * player->speed;
 		player->pos.y += player->dir.x * player->speed;
+		update_flag = true;
 	}
 	if (keycode == RIGHT_ARROW)
+	{
 		player->dir = vector_rotate(player->dir, 0.09);
+		update_flag = true;
+	}
 	if (keycode == LEFT_ARROW)
+	{
 		player->dir = vector_rotate(player->dir, -0.09);
-	game_update(game);
+		update_flag = true;
+	}
+	if (update_flag)
+		game_update(game);
 	return (0);
 }

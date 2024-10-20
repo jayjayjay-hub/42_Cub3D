@@ -17,14 +17,13 @@ int check_map(char **argv)
 void	game_init(t_game *game)
 {
 	window_init(game);
-	game->player = player_init(200, 250, NORTH, 5);
 	// 疑似的な壁
-	mlx_line_put(game, ray_init(vector_init(300, 0), vector_init(0, 1)), 300, MGREEN);
-	mlx_line_put(game, ray_init(vector_init(0, 300), vector_init(1, 0)), 300, MGREEN);
-	mlx_line_put(game, ray_init(vector_init(300, 0), vector_init(-1, 1)), 500, MGREEN);
-	put_minimap(game);
+	// mlx_line_put(game, ray_init(vector_init(300, 0), vector_init(0, 1)), 300, MGREEN);
+	// mlx_line_put(game, ray_init(vector_init(0, 300), vector_init(1, 0)), 300, MGREEN);
+	// mlx_line_put(game, ray_init(vector_init(300, 0), vector_init(-1, 1)), 500, MGREEN);
+	init_minimap(game);
 	draw_player(game, &game->player);
-	raycasting(game, &game->player);
+	// raycasting(game, &game->player);
 }
 
 /*
@@ -47,12 +46,12 @@ int	game_update(t_game *game)
 {
 	mlx_clear_window(game->mlx, game->win);
 	// 疑似的な壁
-	mlx_line_put(game, ray_init(vector_init(300, 0), vector_init(0, 1)), 300, MGREEN);
-	mlx_line_put(game, ray_init(vector_init(0, 300), vector_init(1, 0)), 300, MGREEN);
-	mlx_line_put(game, ray_init(vector_init(300, 0), vector_init(-1, 1)), 500, MGREEN);
-	put_minimap(game);
+	// mlx_line_put(game, ray_init(vector_init(300, 0), vector_init(0, 1)), 300, MGREEN);
+	// mlx_line_put(game, ray_init(vector_init(0, 300), vector_init(1, 0)), 300, MGREEN);
+	// mlx_line_put(game, ray_init(vector_init(300, 0), vector_init(-1, 1)), 500, MGREEN);
+	minimap(game);
 	draw_player(game, &game->player);
-	raycasting(game, &game->player);
+	// raycasting(game, &game->player);
 	return (0);
 }
 
@@ -65,6 +64,7 @@ int	main(int argc, char **argv)
 	if (map_scan(game.map_info, argv[1]))
 		exit(0);
 	game_init(&game);
+	printf("player pos: %f, %f\n", game.player.pos.x, game.player.pos.y);
 	game_loop(&game);
 	return (0);
 }
