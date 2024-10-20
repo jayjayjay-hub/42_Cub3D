@@ -216,4 +216,9 @@ t_vector		line_intersection(t_line_segment line1, t_line_segment line2);
 
 void			raycasting(t_game *game, t_player *player);
 void			draw_wall(t_game *game, int num, double angle, double distance);
+
+/* small_map.c (ミニマップの表示) */
+
+void			put_minimap(t_game *game);
+
 #endif
