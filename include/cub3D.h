@@ -1,12 +1,10 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "libft.h"
-# include "get_next_line.h"
 # include "ft_printf.h"
-
+# include "get_next_line.h"
+# include "libft.h"
 # include "mlx.h"
-
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
@@ -77,155 +75,160 @@
 
 typedef struct s_map
 {
-	char	*no;
-	char	*so;
-	char	*we;
-	char	*ea;
-	int		f;
-	int		c;
-	int		p_x;
-	int		p_y;
-	char	**map;
-	char	**map_tmp;
-}	t_map;
+	char			*no;
+	char			*so;
+	char			*we;
+	char			*ea;
+	int				f;
+	int				c;
+	int				p_x;
+	int				p_y;
+	char			**map;
+	char			**map_tmp;
+}					t_map;
 
 typedef struct s_img
 {
 	struct s_game	*game;
-	char	*data;
-	void	*img;
-	char	*xpm_data;
-	void	*xpm_img;
-	char	*relative_path;
-	int		img_width;
-	int		img_height;
-	int		bpp;
-	int		size_line;
-	int		endian;
-}	t_img;
+	char			*data;
+	void			*img;
+	char			*xpm_data;
+	void			*xpm_img;
+	char			*relative_path;
+	int				img_width;
+	int				img_height;
+	int				bpp;
+	int				size_line;
+	int				endian;
+}					t_img;
 
 typedef struct s_vector
 {
-	double	x;
-	double	y;
-}	t_vector;
+	double			x;
+	double			y;
+}					t_vector;
 
 typedef struct s_ray
 {
-	t_vector	pos;
-	t_vector	dir;
-}	t_ray;
+	t_vector		pos;
+	t_vector		dir;
+}					t_ray;
 
 typedef struct s_line
 {
-	double	inclination;
-	double	intercept;
-}	t_line;
+	double			inclination;
+	double			intercept;
+}					t_line;
 
 typedef struct line_segment
 {
-	t_vector	start;
-	t_vector	end;
-	t_line		line;
-}	t_line_segment;
+	t_vector		start;
+	t_vector		end;
+	t_line			line;
+}					t_line_segment;
 
 typedef struct s_player
 {
-	t_vector	pos;
-	t_vector	dir;
-	double		angle; // radian
-	double		speed;
-}	t_player;
+	t_vector		pos;
+	t_vector		dir;
+	double			angle;
+	double			speed;
+}					t_player;
 
 typedef struct s_texture
 {
-	void	*img;
-	int		*data;
-	int		width;
-	int		height;
-}	t_texture;
+	void			*img;
+	int				*data;
+	int				width;
+	int				height;
+}					t_texture;
 
 typedef struct s_game
 {
-	void		*mlx;
-	void		*win;
-	t_player	player;
-	t_texture	north;
-	t_texture	south;
-	t_texture	west;
-	t_texture	east;
-	t_texture	ceiling;
-	t_texture	floor;
-	t_map		*map_info;
-	t_img		*img;
-}	t_game;
+	void			*mlx;
+	void			*win;
+	t_player		player;
+	t_texture		north;
+	t_texture		south;
+	t_texture		west;
+	t_texture		east;
+	t_texture		ceiling;
+	t_texture		floor;
+	t_map			*map_info;
+	t_img			*img;
+}					t_game;
 
 /* main.c (メイン関数) */
 
-int				game_update(t_game *game);
+int					game_update(t_game *game);
 
 /* map.c (マップの計算) */
 
-int	check_map_spell(char **argv);
-int	map_scan(t_map *map_info, char *argv);
+int					check_map_spell(char **argv);
+int					map_scan(t_map *map_info, char *argv);
 
 /* vector.c (ベクトルの計算) */
 
-t_vector		vector_add(t_vector a, t_vector b);
-t_vector		vector_sub(t_vector a, t_vector b);
-t_vector		vector_mul(t_vector a, double b);
-t_vector		vector_div(t_vector a, double b);
-t_vector		vector_normalize(t_vector a);
-double			vector_len(t_vector a);
-double			vector_dot(t_vector a, t_vector b);
-double			vector_cross(t_vector a, t_vector b);
-t_vector		vector_from_to(t_vector from, t_vector to);
-t_vector		vector_reflect(t_vector a, t_vector normal);
-t_vector		vector_project(t_vector a, t_vector b);
-t_vector		vector_rotate(t_vector a, double angle);
-t_vector		vector_from_angle(double angle);
-t_vector		vector_init(double x, double y);
+t_vector			vector_add(t_vector a, t_vector b);
+t_vector			vector_sub(t_vector a, t_vector b);
+t_vector			vector_mul(t_vector a, double b);
+t_vector			vector_div(t_vector a, double b);
+t_vector			vector_normalize(t_vector a);
+double				vector_len(t_vector a);
+double				vector_dot(t_vector a, t_vector b);
+double				vector_cross(t_vector a, t_vector b);
+t_vector			vector_from_to(t_vector from, t_vector to);
+t_vector			vector_reflect(t_vector a, t_vector normal);
+t_vector			vector_project(t_vector a, t_vector b);
+t_vector			vector_rotate(t_vector a, double angle);
+t_vector			vector_from_angle(double angle);
+t_vector			vector_init(double x, double y);
 
 /* ray.c (レイの計算) */
 
-t_ray			ray_init(t_vector pos, t_vector dir);
-t_line			ray_to_line(t_ray ray);
-t_line_segment	ray_to_segment(t_ray ray, double length);
+t_ray				ray_init(t_vector pos, t_vector dir);
+t_line				ray_to_line(t_ray ray);
+t_line_segment		ray_to_segment(t_ray ray, double length);
 
 /* player.c (プレイヤーの計算) */
 
-t_player		player_init(t_vector pos, char angle, double speed);
-void			draw_player(t_game *game, t_player *player);
-int				key_hook(int keycode, t_game *game);
+t_player			player_init(t_vector pos, char angle, double speed);
+void				draw_player(t_game *game, t_player *player);
+int					key_hook(int keycode, t_game *game);
 
 /* window.c (ウィンドウの計算) */
 
-void			window_init(t_game *game);
-void			window_exit(t_game *game);
-void			mlx_line_put(t_game *game, t_ray ray, double length, int color);
-void			draw_circle(t_game *game, t_vector point, int radius, int color);
-void			draw_rect(t_game *game, t_vector pos, t_vector size, int color);
+void				window_init(t_game *game);
+void				window_exit(t_game *game);
+void				mlx_line_put(t_game *game, t_ray ray, double length,
+						int color);
+void				draw_circle(t_game *game, t_vector point, int radius,
+						int color);
+void				draw_rect(t_game *game, t_vector pos, t_vector size,
+						int color);
 
 /* line.c (直線の計算) */
 
-t_line			line_from_points(t_vector vec1, t_vector vec2);
-double			line_calc_y(t_line line, double x);
-double			line_calc_x(t_line line, double y);
+t_line				line_from_points(t_vector vec1, t_vector vec2);
+double				line_calc_y(t_line line, double x);
+double				line_calc_x(t_line line, double y);
 
 /* segment.c (線分の計算) */
 
-t_line_segment	line_segment_init(t_vector start, t_vector end);
-t_vector		line_intersection(t_line_segment line1, t_line_segment line2);
+t_line_segment		line_segment_init(t_vector start, t_vector end);
+t_vector			line_intersection(t_line_segment line1,
+						t_line_segment line2);
 
 /* raycasting.c (レイキャスティング) */
 
-void			raycasting(t_game *game, t_player *player);
-void			draw_wall(t_game *game, int num, double angle, double distance);
+void				raycasting(t_game *game, t_player *player);
+void				draw_wall(t_game *game, int num, double angle,
+						double distance);
 
 /* small_map.c (ミニマップの表示) */
 
-void			init_minimap(t_game *game);
-void			put_minimap(t_game *game);
-void			minimap(t_game *game);
+void				init_minimap(t_game *game);
+void				put_minimap(t_game *game);
+void				minimap(t_game *game);
 
 #endif

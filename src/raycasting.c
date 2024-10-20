@@ -16,19 +16,22 @@ void	check_wall(t_game *game, t_line_segment ray, int num, double angle)
 	if (intersection.x != -1 && intersection.y != -1)
 	{
 		draw_circle(game, intersection, 3, MWHITE);
-		draw_wall(game, num, angle, vector_len(vector_from_to(ray.start, intersection)));
+		draw_wall(game, num, angle, vector_len(vector_from_to(ray.start,
+					intersection)));
 	}
 	intersection = line_intersection(ray, segment_2);
 	if (intersection.x != -1 && intersection.y != -1)
 	{
 		draw_circle(game, intersection, 3, MWHITE);
-		draw_wall(game, num, angle, vector_len(vector_from_to(ray.start, intersection)));
+		draw_wall(game, num, angle, vector_len(vector_from_to(ray.start,
+					intersection)));
 	}
 	intersection = line_intersection(ray, segment_3);
 	if (intersection.x != -1 && intersection.y != -1)
 	{
 		draw_circle(game, intersection, 3, MWHITE);
-		draw_wall(game, num, angle, vector_len(vector_from_to(ray.start, intersection)));
+		draw_wall(game, num, angle, vector_len(vector_from_to(ray.start,
+					intersection)));
 	}
 }
 

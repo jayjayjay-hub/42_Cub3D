@@ -18,21 +18,28 @@ void	init_minimap(t_game *game)
 		while (game->map_info->map[y][x])
 		{
 			if (game->map_info->map[y][x] == '1')
-				draw_rect(game,
-					vector_init(x * MINIMAP_RECT_SIZE + MINIMAP_RECT_SIZE_HALF, y * MINIMAP_RECT_SIZE + MINIMAP_RECT_SIZE_HALF),
-					vector_init(MINIMAP_RECT_SIZE, MINIMAP_RECT_SIZE),
-					MWHITE);
+				draw_rect(game, vector_init(x * MINIMAP_RECT_SIZE
+						+ MINIMAP_RECT_SIZE_HALF, y * MINIMAP_RECT_SIZE
+						+ MINIMAP_RECT_SIZE_HALF),
+					vector_init(MINIMAP_RECT_SIZE, MINIMAP_RECT_SIZE), MWHITE);
 			else if (game->map_info->map[y][x] == '0')
 			{
 				x++;
-				continue;
+				continue ;
 			}
-				// draw_rect(game,
-				// 	vector_init(x * MINIMAP_RECT_SIZE + MINIMAP_RECT_SIZE_HALF, y * MINIMAP_RECT_SIZE + MINIMAP_RECT_SIZE_HALF),
-				// 	vector_init(MINIMAP_RECT_SIZE, MINIMAP_RECT_SIZE),
-				// 	MBLACK);
-			else if (game->map_info->map[y][x] == 'N' || game->map_info->map[y][x] == 'S' || game->map_info->map[y][x] == 'W' || game->map_info->map[y][x] == 'E')
-				game->player = player_init(vector_init(x * MINIMAP_RECT_SIZE + MINIMAP_RECT_SIZE_HALF, y * MINIMAP_RECT_SIZE + MINIMAP_RECT_SIZE_HALF), game->map_info->map[y][x], PLAYER_SPEED);
+			// draw_rect(game,
+			// 	vector_init(x * MINIMAP_RECT_SIZE + MINIMAP_RECT_SIZE_HALF, y
+					// * MINIMAP_RECT_SIZE + MINIMAP_RECT_SIZE_HALF),
+			// 	vector_init(MINIMAP_RECT_SIZE, MINIMAP_RECT_SIZE),
+			// 	MBLACK);
+			else if (game->map_info->map[y][x] == 'N'
+				|| game->map_info->map[y][x] == 'S'
+				|| game->map_info->map[y][x] == 'W'
+				|| game->map_info->map[y][x] == 'E')
+				game->player = player_init(vector_init(x * MINIMAP_RECT_SIZE
+							+ MINIMAP_RECT_SIZE_HALF, y * MINIMAP_RECT_SIZE
+							+ MINIMAP_RECT_SIZE_HALF),
+						game->map_info->map[y][x], PLAYER_SPEED);
 			x++;
 		}
 		y++;
@@ -55,15 +62,15 @@ void	put_minimap(t_game *game)
 		while (game->map_info->map[y][x])
 		{
 			if (game->map_info->map[y][x] == '1')
-				draw_rect(game,
-					vector_init(x * MINIMAP_RECT_SIZE + MINIMAP_RECT_SIZE_HALF, y * MINIMAP_RECT_SIZE + MINIMAP_RECT_SIZE_HALF),
-					vector_init(MINIMAP_RECT_SIZE, MINIMAP_RECT_SIZE),
-					MWHITE);
+				draw_rect(game, vector_init(x * MINIMAP_RECT_SIZE
+						+ MINIMAP_RECT_SIZE_HALF, y * MINIMAP_RECT_SIZE
+						+ MINIMAP_RECT_SIZE_HALF),
+					vector_init(MINIMAP_RECT_SIZE, MINIMAP_RECT_SIZE), MWHITE);
 			else if (game->map_info->map[y][x] == '0')
-				draw_rect(game,
-					vector_init(x * MINIMAP_RECT_SIZE + MINIMAP_RECT_SIZE_HALF, y * MINIMAP_RECT_SIZE + MINIMAP_RECT_SIZE_HALF),
-					vector_init(MINIMAP_RECT_SIZE, MINIMAP_RECT_SIZE),
-					MBLACK);
+				draw_rect(game, vector_init(x * MINIMAP_RECT_SIZE
+						+ MINIMAP_RECT_SIZE_HALF, y * MINIMAP_RECT_SIZE
+						+ MINIMAP_RECT_SIZE_HALF),
+					vector_init(MINIMAP_RECT_SIZE, MINIMAP_RECT_SIZE), MBLACK);
 			x++;
 		}
 		y++;

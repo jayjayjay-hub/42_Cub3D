@@ -2,8 +2,8 @@
 
 int	check_map_spell(char **argv)
 {
-	if (ft_strrchr(argv[1], '.') == 0
-		|| ft_strncmp(ft_strrchr(argv[1], '.'), ".cub", 4) != 0)
+	if (ft_strrchr(argv[1], '.') == 0 || ft_strncmp(ft_strrchr(argv[1], '.'),
+			".cub", 4) != 0)
 		return (1);
 	return (0);
 }
@@ -66,8 +66,7 @@ int	map_info_init(t_map **map_info, char *argv)
 
 int	wall_spell_check(char **map, int y, int x)
 {
-	if (!map[y + 1][x] || !map[y - 1][x] || !map[y][x + 1]
-		|| !map[y][x - 1])
+	if (!map[y + 1][x] || !map[y - 1][x] || !map[y][x + 1] || !map[y][x - 1])
 		return (1);
 	if (ft_isspace(map[y + 1][x]) || ft_isspace(map[y - 1][x])
 		|| ft_isspace(map[y][x + 1]) || ft_isspace(map[y][x - 1]))
@@ -121,15 +120,13 @@ int	spell_check(char spell, int mode)
 {
 	if (mode == 1)
 	{
-		if (spell == '0' || spell == '1' || spell == '\n'
-			|| spell == ' ' || spell == 'N' || spell == 'S'
-			|| spell == 'W' || spell == 'E')
+		if (spell == '0' || spell == '1' || spell == '\n' || spell == ' '
+			|| spell == 'N' || spell == 'S' || spell == 'W' || spell == 'E')
 			return (1);
 	}
 	if (mode == 2)
 	{
-		if (spell == 'N' || spell == 'S'
-			|| spell == 'W' || spell == 'E')
+		if (spell == 'N' || spell == 'S' || spell == 'W' || spell == 'E')
 			return (1);
 	}
 	return (0);
@@ -220,7 +217,8 @@ int	map_scan(t_map *map_info, char *argv)
 			free(line);
 			continue ;
 		}
-		// map_info->map = (char **)ft_realloc(map_info->map, sizeof(char *) * (y + 1));
+		// map_info->map = (char **)ft_realloc(map_info->map, sizeof(char *)
+				// * (y + 1));
 		map_info->map[y] = ft_strdup(line);
 		map_info->map_tmp[y] = ft_strdup(line);
 		free(line);

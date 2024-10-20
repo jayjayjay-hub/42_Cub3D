@@ -43,7 +43,8 @@ void	mlx_line_put(t_game *game, t_ray ray, double length, int color)
 		{
 			while (ray.pos.x < end.x)
 			{
-				mlx_pixel_put(game->mlx, game->win, ray.pos.x, line_calc_y(line, ray.pos.x), color);
+				mlx_pixel_put(game->mlx, game->win, ray.pos.x, line_calc_y(line,
+						ray.pos.x), color);
 				ray.pos.x++;
 			}
 		}
@@ -51,7 +52,8 @@ void	mlx_line_put(t_game *game, t_ray ray, double length, int color)
 		{
 			while (ray.pos.x > end.x)
 			{
-				mlx_pixel_put(game->mlx, game->win, ray.pos.x, line_calc_y(line, ray.pos.x), color);
+				mlx_pixel_put(game->mlx, game->win, ray.pos.x, line_calc_y(line,
+						ray.pos.x), color);
 				ray.pos.x--;
 			}
 		}
@@ -62,7 +64,8 @@ void	mlx_line_put(t_game *game, t_ray ray, double length, int color)
 		{
 			while (ray.pos.y < end.y)
 			{
-				mlx_pixel_put(game->mlx, game->win, line_calc_x(line, ray.pos.y), ray.pos.y, color);
+				mlx_pixel_put(game->mlx, game->win, line_calc_x(line,
+						ray.pos.y), ray.pos.y, color);
 				ray.pos.y++;
 			}
 		}
@@ -70,7 +73,8 @@ void	mlx_line_put(t_game *game, t_ray ray, double length, int color)
 		{
 			while (ray.pos.y > end.y)
 			{
-				mlx_pixel_put(game->mlx, game->win, line_calc_x(line, ray.pos.y), ray.pos.y, color);
+				mlx_pixel_put(game->mlx, game->win, line_calc_x(line,
+						ray.pos.y), ray.pos.y, color);
 				ray.pos.y--;
 			}
 		}
@@ -86,8 +90,8 @@ void	mlx_line_put(t_game *game, t_ray ray, double length, int color)
 */
 void	draw_circle(t_game *game, t_vector point, int radius, int color)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	i = -radius;
 	while (i < radius)
@@ -96,7 +100,8 @@ void	draw_circle(t_game *game, t_vector point, int radius, int color)
 		while (j < radius)
 		{
 			if (i * i + j * j < radius * radius)
-				mlx_pixel_put(game->mlx, game->win, point.x + i, point.y + j, color);
+				mlx_pixel_put(game->mlx, game->win, point.x + i, point.y + j,
+					color);
 			j++;
 		}
 		i++;
@@ -112,8 +117,8 @@ void	draw_circle(t_game *game, t_vector point, int radius, int color)
 */
 void	draw_rect(t_game *game, t_vector pos, t_vector size, int color)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	i = -size.x / 2;
 	while (i < size.x / 2)

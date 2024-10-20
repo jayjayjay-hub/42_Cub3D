@@ -1,9 +1,9 @@
 #include "cub3D.h"
 
-int check_map(char **argv)
+int	check_map(char **argv)
 {
-	if (ft_strrchr(argv[1], '.') == 0
-		|| ft_strcmp(ft_strrchr(argv[1], '.'), ".cub") != 0)
+	if (ft_strrchr(argv[1], '.') == 0 || ft_strcmp(ft_strrchr(argv[1], '.'),
+			".cub") != 0)
 		return (1);
 	return (0);
 }
@@ -18,9 +18,12 @@ void	game_init(t_game *game)
 {
 	window_init(game);
 	// 疑似的な壁
-	// mlx_line_put(game, ray_init(vector_init(300, 0), vector_init(0, 1)), 300, MGREEN);
-	// mlx_line_put(game, ray_init(vector_init(0, 300), vector_init(1, 0)), 300, MGREEN);
-	// mlx_line_put(game, ray_init(vector_init(300, 0), vector_init(-1, 1)), 500, MGREEN);
+	// mlx_line_put(game, ray_init(vector_init(300, 0), vector_init(0, 1)), 300,
+		// MGREEN);
+	// mlx_line_put(game, ray_init(vector_init(0, 300), vector_init(1, 0)), 300,
+		// MGREEN);
+	// mlx_line_put(game, ray_init(vector_init(300, 0), vector_init(-1, 1)),
+		// 500, MGREEN);
 	init_minimap(game);
 	draw_player(game, &game->player);
 	// raycasting(game, &game->player);
@@ -46,9 +49,12 @@ int	game_update(t_game *game)
 {
 	mlx_clear_window(game->mlx, game->win);
 	// 疑似的な壁
-	// mlx_line_put(game, ray_init(vector_init(300, 0), vector_init(0, 1)), 300, MGREEN);
-	// mlx_line_put(game, ray_init(vector_init(0, 300), vector_init(1, 0)), 300, MGREEN);
-	// mlx_line_put(game, ray_init(vector_init(300, 0), vector_init(-1, 1)), 500, MGREEN);
+	// mlx_line_put(game, ray_init(vector_init(300, 0), vector_init(0, 1)), 300,
+		// MGREEN);
+	// mlx_line_put(game, ray_init(vector_init(0, 300), vector_init(1, 0)), 300,
+		// MGREEN);
+	// mlx_line_put(game, ray_init(vector_init(300, 0), vector_init(-1, 1)),
+		// 500, MGREEN);
 	minimap(game);
 	draw_player(game, &game->player);
 	// raycasting(game, &game->player);
