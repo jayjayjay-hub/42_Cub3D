@@ -1,0 +1,16 @@
+NO ./textures/water.xpm
+SO ./textures/wood_vertical.xpm
+WE ./textures/grass.xpm
+EA ./textures/dirt.xpm
+
+F 65,100,0
+C 0,30,120
+
+111111111111
+111100000001
+100000000001
+111000011001
+1000E0000001
+100000000001
+110011100001
+111111111111
