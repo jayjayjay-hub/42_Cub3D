@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/09/19 11:59:48 by kosnakam          #+#    #+#              #
-#    Updated: 2024/09/28 18:57:53 by jtakahas         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 # Makefile
 MAKEFILE 		= Makefile
 
@@ -24,7 +12,6 @@ OBJ_DIR			= .obj/
 LIBFT_DIR		= libft/
 LIBFT_NAME		= libft.a
 MLX_DIR			= mlx/
-MXL_NAME		= libmlx.a
 # MacOSの場合
 ifeq ($(shell uname), Darwin)
 	MLX_NAME	= libmlx.a
@@ -51,7 +38,7 @@ ifeq ($(shell uname), Darwin)
 	LFLAGS		= -framework OpenGL -framework AppKit
 # Linuxの場合
 else
-	LFLAGS		= -lXext -lX11
+	LFLAGS		= -lXext -lX11 -lm
 endif
 
 # コマンド
