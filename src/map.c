@@ -48,11 +48,12 @@ int	map_info_init(t_map **map_info, char *argv)
 {
 	(void)argv; // todo : 使っていない変数を強制的に使う
 	// todo : mallocのサイズを変更する
-	(*map_info)->map = (char **)malloc(sizeof(char *) * 30);
-	(*map_info)->map_tmp = (char **)malloc(sizeof(char *) * 30);
+	*map_info = (t_map *)malloc(sizeof(t_map));
+	(*map_info)->map = (char **)malloc(sizeof(char *) * OPEN_MAX);
+	(*map_info)->map_tmp = (char **)malloc(sizeof(char *) * OPEN_MAX);
 	if (!(*map_info)->map || !(*map_info)->map_tmp)
 		return (1);
-	(*map_info)->map[30] = NULL;
+	(*map_info)->map[OPEN_MAX] = NULL;
 	(*map_info)->no = NULL;
 	(*map_info)->so = NULL;
 	(*map_info)->we = NULL;
@@ -179,29 +180,11 @@ int	map_check(t_map *map_info)
 		return (1);
 	if (map_spell_check(map_info, map_info->map))
 		return (1);
-	ft_printf("map_check\n");
 	wall_check(map_info->map_tmp, map_info->p_y, map_info->p_x, &i, &flag);
 	if (flag)
 		return (1);
 	return (0);
 }
-
-// char	**ft_realloc(char **ptr, size_t size)
-// {
-// 	char	**new_ptr;
-// 	int		i;
-
-// 	i = -1;
-// 	new_ptr = (char **)malloc(size);
-// 	if (!new_ptr)
-// 		return (NULL);
-// 	ft_printf("realloc\n");
-// 	new_ptr = ptr;
-// 	ft_printf("realloc\n");
-// 	// new_ptr[i] = NULL;
-// 	free(ptr);
-// 	return (new_ptr);
-// }
 
 int	map_scan(t_map *map_info, char *argv)
 {
@@ -223,7 +206,6 @@ int	map_scan(t_map *map_info, char *argv)
 			free(line);
 			continue ;
 		}
-		// map_info->map = (char **)ft_realloc(map_info->map, sizeof(char *) * (y + 1));
 		map_info->map[y] = ft_strdup(line);
 		map_info->map_tmp[y] = ft_strdup(line);
 		free(line);
