@@ -167,6 +167,8 @@ int	map_spell_check(t_map *map_info, char **map)
 			else
 				return (1);
 		}
+		if (map_info->p_x == -1)
+			return (1);
 	}
 	return (0);
 }
