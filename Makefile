@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: kosnakam <kosnakam@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/09/19 11:59:48 by kosnakam          #+#    #+#              #
-#    Updated: 2024/10/18 16:03:16 by kosnakam         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 # Makefile
 MAKEFILE 		= Makefile
 
@@ -24,7 +12,6 @@ OBJ_DIR			= .obj/
 LIBFT_DIR		= libft/
 LIBFT_NAME		= libft.a
 MLX_DIR			= mlx/
-MXL_NAME		= libmlx.a
 # MacOSの場合
 ifeq ($(shell uname), Darwin)
 	MLX_NAME	= libmlx.a
