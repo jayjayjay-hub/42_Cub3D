@@ -118,6 +118,24 @@ int	set_map_info(t_map *map_info, char *map)
 	return (2);
 }
 
+void	set_player_info(t_map *map_info, char spell, int x, int y)
+{
+	map_info->p_x = x;
+	map_info->p_y = y;
+	if (spell == 'N')
+	{
+		map_info->p_angle = NORTH;
+		// NORTHをdoubule型入れてるけどうまく行かないよ泣
+		ft_printf("angle: %f\n", NORTH);
+	}
+	else if (spell == 'S')
+		map_info->p_angle = SOUTH;
+	else if (spell == 'W')
+		map_info->p_angle = WEST;
+	else if (spell == 'E')
+		map_info->p_angle = EAST;
+}
+
 int	spell_check(char spell, int mode)
 {
 	if (mode == 1)
@@ -125,13 +143,12 @@ int	spell_check(char spell, int mode)
 		if (spell == '0' || spell == '1' || spell == '\n'
 			|| spell == ' ' || spell == 'N' || spell == 'S'
 			|| spell == 'W' || spell == 'E')
-			return (1);
-	}
-	if (mode == 2)
-	{
-		if (spell == 'N' || spell == 'S'
-			|| spell == 'W' || spell == 'E')
-			return (1);
+		{
+			if (spell == 'N' || spell == 'S'
+				|| spell == 'W' || spell == 'E')
+				return (1);
+			return (2);
+		}
 	}
 	return (0);
 }
@@ -147,17 +164,13 @@ int	map_spell_check(t_map *map_info, char **map)
 		x = -1;
 		while (map[y] && map[y][++x])
 		{
-			if (spell_check(map[y][x], 1))
+			if (spell_check(map[y][x], 1) == 1)
 			{
-				if (spell_check(map[y][x], 2))
-				{
-					if (map_info->p_x != -1)
-						return (1);
-					map_info->p_x = x;
-					map_info->p_y = y;
-				}
+				if (map_info->p_x != -1)
+					return (1);
+				set_player_info(map_info, map[y][x], x, y);
 			}
-			else
+			else if (spell_check(map[y][x], 1) == 0)
 				return (1);
 		}
 	}

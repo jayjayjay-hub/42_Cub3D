@@ -80,6 +80,7 @@ typedef struct s_map
 	int		c;
 	int		p_x;
 	int		p_y;
+	double		p_angle;
 	char	**map;
 	char	**map_tmp;
 }	t_map;
